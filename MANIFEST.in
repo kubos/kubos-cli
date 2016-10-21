@@ -1,0 +1,7 @@
+include README.md
+include setup.json
+include flash/openocd/flash.sh
+include flash/openocd/osxusb.py
+include flash/openocd/stm32f407g-disc1.cfg
+include flash/openocd/stm32f407vg.cfg
+include flash/mspdebug/flash.sh

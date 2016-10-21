@@ -1,0 +1,11 @@
+Metadata-Version: 1.1
+Name: kubos-sdk
+Version: 0.1.4
+Summary: Kubos SDK
+Home-page: http://github.com/kubostech/kubos-sdk
+Author: Kubos
+Author-email: kyle@kubos.co
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 2.7
