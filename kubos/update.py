@@ -22,6 +22,7 @@ import time
 import os
 
 from kubos.utils.git_common import *
+from kubos.version import check_provided_version
 from kubos import version as kubos_version
 from packaging import version
 from yotta import link, link_target
@@ -40,23 +41,32 @@ def execCommand(args, following_args):
     if not os.path.isdir(KUBOS_DIR):
         os.makedirs(KUBOS_DIR)
     os.chdir(KUBOS_DIR)
+    clone_repo(KUBOS_SRC_DIR, KUBOS_SRC_URL)
+    clone_repo(KUBOS_EXAMPLE_DIR, KUBOS_EXAMPLE_URL)
+
+
+def clone_repo(repo_dir, repo_url):
     try:
-        if not os.path.isdir(KUBOS_SRC_DIR):
-            repo = git.Repo.clone_from(KUBOS_SRC_URL, KUBOS_SRC_DIR)
-            print 'Successfully Pulled Kubos Source Repo'
+        if not os.path.isdir(repo_dir):
+            repo = git.Repo.clone_from(repo_url, repo_dir)
+            print 'Successfully cloned repo: %s' % repo_url
         else:
-            repo = git.Repo(KUBOS_SRC_DIR)
-            print 'Kubos Source Repo already exists'
-        origin = repo.remotes.origin
-        tag_list = []
-        latest_tag = ""
-        print 'Checking for newer KubOS source releases...'
-        origin.fetch(tags=True)
-        setattr(args, 'set_version', None)
-        kubos_version.execCommand(args, following_args)
+            repo = git.Repo(repo_dir)
+            print 'Repo already exists'
+        fetch_new_tags(repo)
     except git.exc.GitCommandError as e:
         print 'Error: there was an error accessing the remote git repository...'
         print 'The specific error is: \n\n %s' % e
+
+
+def fetch_new_tags(repo):
+    origin = repo.remotes.origin
+    tag_list = []
+    latest_tag = ""
+    print 'Checking for newer KubOS source releases...'
+    origin.fetch(tags=True)
+    #Set the repo version to the most recent tag
+    check_provided_version(None, repo)
     relink_modules(KUBOS_SRC_DIR)
 
 

@@ -27,15 +27,15 @@ def addOptions(parser):
 
 
 def execCommand(args, following_args):
-    tag_list = get_tag_list()
+    repo, origin = get_repo(KUBOS_SRC_DIR)
+    tag_list = get_tag_list(repo)
     latest   = get_latest_tag(tag_list)
     print 'Availalbe versions are:'
     print_tag_list(tag_list)
     print 'The most recent release is: %s' % latest
 
 
-def get_tag_list():
-    repo, origin = get_kubos_repo()
+def get_tag_list(repo):
     tags = repo.tags
     tag_list = []
     for tag in tags:

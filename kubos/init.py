@@ -20,6 +20,7 @@ import os
 import shutil
 import sys
 
+from kubos.utils.git_common import KUBOS_EXAMPLE_DIR
 from yotta import link, link_target
 from yotta.lib import folders
 from yotta.lib.detect import systemDefaultTarget
@@ -31,14 +32,13 @@ def addOptions(parser):
 def execCommand(args, following_args):
     proj_name = vars(args)['proj_name'][0] #vars returns a dict of args. proj_name is a list since nargs=1
     print 'Initializing project: %s ...' % proj_name
-    example_source_dir = os.path.join('/', 'examples', 'kubos-rt-example')
     proj_name_dir = os.path.join(os.getcwd(), proj_name)
 
     if os.path.isdir(proj_name_dir):
         print >>sys.stderr, 'The project directory %s already exists. Not overwritting the current directory' % proj_name_dir
         sys.exit(1)
 
-    shutil.copytree(example_source_dir, proj_name_dir, ignore=shutil.ignore_patterns('.git'))
+    shutil.copytree(KUBOS_EXAMPLE_DIR, proj_name_dir, ignore=shutil.ignore_patterns('.git'))
     #change project name in module.json
     module_json = os.path.join(proj_name_dir, 'module.json')
     with open(module_json, 'r') as init_module_json:

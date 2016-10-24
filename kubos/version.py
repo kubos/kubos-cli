@@ -29,41 +29,47 @@ def addOptions(parser):
 
 def execCommand(args, following_args):
     requested_version = vars(args)['set_version']
+    repo, origin = get_repo(KUBOS_SRC_DIR)
+    check_provided_version(requested_version, repo)
+
+
+def check_provided_version(requested_version, repo):
+    #the repo paramenter allows this function to be used for the example project as well
     if not requested_version:
         print 'No version requested - Defaulting to the most recent release'
-        requested_version = get_latest_tag(get_tag_list())
+        requested_version = get_latest_tag(get_tag_list(repo))
     active_version = get_active_version()
     if requested_version == active_version:
         print 'The requested version: %s is already active. There\'s nothing to do..' % requested_version
         return
-    set_active_version(requested_version)
+    set_active_version(requested_version, repo)
     if active_version:
-        print 'Changing from version: %s' % active_version
-    print 'Activating version %s' % requested_version
+        print 'Deactivating version: %s' % active_version
+    print '\nActivating version %s' % requested_version
 
 
-def set_active_version(set_tag):
-    repo, origin = get_kubos_repo()
-    tag_list = get_tag_list()
+def set_active_version(set_tag, repo):
+    origin = repo.remotes.origin
+    tag_list = get_tag_list(repo)
     found = False
     for tag in tag_list:
         if tag.name == set_tag:
-            checkout(tag)
+            checkout(tag, repo)
             found = True
             break
     if not found:
-        print >>sys.stderr, 'The requested version "%s" is not an avaialble version.' % set_tag
+        print >>sys.stderr, '\nThe requested version "%s" is not an avaialble version.' % set_tag
         print >>sys.stderr, 'Available versions are: '
         print_tag_list(tag_list)
         sys.exit(1)
 
 
-def checkout(tag):
-    repo, origin = get_kubos_repo()
+def checkout(tag, repo):
     try:
         repo.git.checkout(tag.name)
-        with open(KUBOS_VERSION_FILE, 'w') as version_file:
-            version_file.write(tag.name)
+        if repo.git_dir == os.path.join(KUBOS_SRC_DIR, '.git'):
+            with open(KUBOS_VERSION_FILE, 'w') as version_file:
+                version_file.write(tag.name)
     except:
         print 'There was an error checking out the tag "%s"' % tag.name
         print 'The error details are: \n\n%s' %  sys.exc_info()[0]
