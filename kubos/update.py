@@ -23,10 +23,10 @@ import os
 
 from kubos.utils.git_common import *
 from kubos import version as kubos_version
-from options import parser
 from packaging import version
 from yotta import link, link_target
 from yotta.lib import detect
+from yotta.options import parser
 
 def addOptions(parser):
     pass
@@ -89,10 +89,7 @@ def link_module_globally(path):
     start_dir = os.getcwd()
     path_dir_name = os.path.dirname(path)
     os.chdir(path_dir_name)
-    with open(path, 'r') as json_file:
-        data = json.load(json_file)
-        module_name = data['name']
-    link_args = argparse.Namespace(module_or_path=path_dir_name,
+    link_args = argparse.Namespace(module_or_path=None,
                                    config=None,
                                    target=detect.kubosDefaultTarget())
     link.execCommand(link_args, None)

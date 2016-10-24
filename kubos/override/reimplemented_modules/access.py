@@ -12,7 +12,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
+'''
+This module is an altered copy of the yotta/lib/access.py module.
+The kubos changes in here are specifically to change the yotta behavior
+around fetching modules from a registry. Specifically changes start on
+line 127
+'''
 
 # standard library modules, , ,
 import os
@@ -114,6 +119,12 @@ def latestSuitableVersion(name, version_required, registry='modules', quiet=Fals
         logger.info('get versions for ' + name)
 
     if remote_component.remoteType() == 'registry':
+        '''This function is changed from the default yotta functionality.
+        This now raises an error if a module is not found locally (this 
+        condition should not ever happen if the CLI is working correctly.
+        All KubOS modules should be in the KubOS source download and linked
+        locally into each project rather than fetched from a registry'''
+
         #logger.debug('satisfy %s from %s registry' % (name, registry))
         #vers = remote_component.availableVersions()
         #spec = remote_component.versionSpec()
@@ -121,8 +132,8 @@ def latestSuitableVersion(name, version_required, registry='modules', quiet=Fals
         #logger.debug("%s selected %s from %s", spec, v, vers)
         #if not v:
         raise access_common.Unavailable(
-            'The %s registry does not provide a version of "%s" matching "%s"' % (
-                registry, name, spec
+            'The %s registry does not provide a version of "%s"' % (
+                registry, name
             )
         )
     elif remote_component.remoteType() == 'github':

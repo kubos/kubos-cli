@@ -1,5 +1,5 @@
 build/
 dist/
 .kubos-link.json
-kubos_sdk.egg-info/
+*.egg-info
 *.pyc

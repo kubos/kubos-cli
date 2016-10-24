@@ -13,6 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+'''
+This file is an altered copy of yotta/lib/detect.py
+Our specific changes alter the default yotta target
+and change it to the stm32f407-disco-gcc instead of
+the x86-platform-native target which doesn't exist
+in the kubos-cli context
+'''
 
 # standard library modules, , ,
 import platform
@@ -30,23 +37,8 @@ def defaultTarget(ignore_set_target=False):
 
 
 def kubosDefaultTarget():
-    return 'stm32f407-disco-gcc'
+    return 'stm32f407-disco-gcc,*'
 
 
 def systemDefaultTarget():
     return kubosDefaultTarget()
-    #machine = platform.machine()
-
-    #x86 = machine.find('86') != -1
-    #arm = machine.find('arm') != -1 or machine.find('aarch') != -1
-
-    #prefix = "x86-" if x86 else "arm-" if arm else ""
-    #platf = 'unknown'
-
-    #if sys.platform.startswith('linux'):
-    #    platf = 'linux-native'
-    #elif sys.platform == 'darwin':
-    #    platf = 'osx-native'
-    #elif sys.platform.find('win') != -1:
-    #    platf = 'win'
-    #return prefix + platf + ','

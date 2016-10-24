@@ -14,14 +14,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from options import parser
 import argparse
 import sys
 import os
 import json
-from yotta import target
 import yotta.lib.globalconf as globalconf
-global_target_path  = os.path.join('/', 'usr', 'local', 'lib', 'yotta_targets')
+
+from kubos.utils.sdk import *
+from yotta import target
+from yotta.options import parser
 
 
 def addOptions(parser):
@@ -73,11 +74,11 @@ def set_target(new_target):
 
 
 def get_target_list():
-    target_list = os.listdir(global_target_path)
+    target_list = os.listdir(GLOBAL_TARGET_PATH)
     available_target_list = []
 
     for subdir in target_list:
-        target_json = os.path.join(global_target_path, subdir, 'target.json')
+        target_json = os.path.join(GLOBAL_TARGET_PATH, subdir, 'target.json')
         with open(target_json, 'r') as json_file:
             data = json.load(json_file)
             available_target_list.append(data['name'])

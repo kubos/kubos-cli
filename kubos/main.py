@@ -16,16 +16,17 @@ import functools
 import sdk_config
 import sys
 import os
+
 from . import options as kubos_options
+from pip.utils import get_installed_version
 
 # hook to support coverage information when yotta runs itself during tests:
 if 'COVERAGE_PROCESS_START' in os.environ:
     import coverage
     coverage.process_startup()
 
-# set __version__ using the same file that's read by setup.py when installing:
-with open(os.path.join(os.path.dirname(__file__), 'version.txt')) as _version_f:
-    __version__ = _version_f.read().strip()
+# set __version__ using the installation known by pip
+__version__ = get_installed_version('kubos-cli')
 
 def splitList(l, at_value):
     r = [[]]

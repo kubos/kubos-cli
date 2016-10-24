@@ -20,8 +20,8 @@ import os
 #Includes all of the sdk path variables
 from kubos.utils.git_common import *
 from kubos.versions import get_tag_list, print_tag_list, get_latest_tag
-from options import parser
 from packaging import version
+from yotta.options import parser
 
 def addOptions(parser):
     parser.add_argument('set_version', nargs='?', help='specify the desired KubOS Source version to set')

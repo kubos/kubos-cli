@@ -20,6 +20,7 @@ from pkg_resources import resource_filename
 
 KUBOS_RESOURCE_DIR = os.path.join(resource_filename(__name__, ''), '..')
 SDK_MODULE_JSON = os.path.join(KUBOS_RESOURCE_DIR, 'module.json')
+GLOBAL_TARGET_PATH  = os.path.join('/', 'usr', 'local', 'lib', 'yotta_targets')
 
 def get_sdk_attribute(attr):
     sdk_data = json.load(open(SDK_MODULE_JSON, 'r'))

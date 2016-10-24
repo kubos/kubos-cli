@@ -1,9 +1,6 @@
 {
     "install_requires": [
         "yotta",
-        "docker-py==1.9.0",
-        "dockerpty",
-        "psutil",
         "setuptools",
         "requests==2.10.0",
         "pager",
@@ -17,95 +14,5 @@
             "kubos=kubos:main"
         ]
     },
-    "test_suite": "kubos.test",
-    "data_files": [
-        [
-            "/kubos",
-            [
-                "eula.txt",
-                "module.json"
-            ]
-        ],
-        [
-            "/kubos/utils",
-            [
-                "kubos/utils/getip.sh"
-            ]
-        ],
-        [
-            "/kubos/flash/mspdebug",
-            [
-                "flash/mspdebug/flash.sh"
-            ]
-        ],
-        [
-            "/kubos/flash/dfu_util",
-            [
-                "flash/dfu_util/flash.sh"
-            ]
-        ],
-        [
-            "/kubos/flash/openocd",
-            [
-                "flash/openocd/flash.sh",
-                "flash/openocd/osxusb.py",
-                "flash/openocd/stm32f407g-disc1.cfg",
-                "flash/openocd/stm32f407vg.cfg",
-                "flash/openocd/mem_helper.tcl",
-                "flash/openocd/stm32f4x_stlink.cfg"
-            ]
-        ],
-        [
-            "/kubos/flash/openocd/interface",
-            [
-                "flash/openocd/interface/stlink-v2.cfg",
-                "flash/openocd/interface/stlink-v2-1.cfg"
-            ]
-        ],
-        [
-            "/kubos/flash/openocd/target",
-            [
-                "flash/openocd/target/stm32f4x.cfg",
-                "flash/openocd/target/stm32f4x_stlink.cfg",
-                "flash/openocd/target/swj-dp.tcl"
-            ]
-        ],
-        [
-            "/kubos/bin/linux",
-            [
-                "bin/linux/mspdebug",
-                "bin/linux/openocd",
-                "bin/linux/dfu-util"
-            ]
-        ],
-        [
-            "/kubos/bin/osx",
-            [
-                "bin/osx/openocd",
-                "bin/osx/mspdebug",
-                "bin/osx/dfu-util"
-            ]
-        ],
-        [
-            "/kubos/lib/linux",
-            [
-                "lib/linux/libmsp430.so",
-                "lib/linux/libudev.so.0",
-                "lib/linux/libusb-1.0.so.0",
-                "lib/linux/libhidapi-hidraw.so.0"
-            ]
-        ],
-        [
-            "/kubos/lib/osx",
-            [
-                "lib/osx/libmsp430.dylib",
-                "lib/osx/libanalytics.dylib",
-                "lib/osx/libftdi1.2.dylib",
-                "lib/osx/libobjc.A.dylib",
-                "lib/osx/libSystem.B.dylib",
-                "lib/osx/libusb-0.1.4.dylib",
-                "lib/osx/libusb-1.0.0.dylib"
-            ]
-        ]
-    ]
+    "test_suite": "kubos.test"
 }

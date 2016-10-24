@@ -19,8 +19,8 @@ import os
 
 #Includes all of the sdk path variables
 from kubos.utils.git_common import *
-from options import parser
 from packaging import version
+from yotta.options import parser
 
 def addOptions(parser):
     pass
