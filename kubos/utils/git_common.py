@@ -16,7 +16,7 @@
 import git
 import os
 
-KUBOS_SRC_URL = 'https://github.com/kubostech/kubos-tmp'
+KUBOS_SRC_URL = 'https://github.com/kubostech/kubos'
 KUBOS_EXAMPLE_URL = 'https://github.com/kubostech/kubos-rt-example'
 HOME_DIR = os.path.expanduser('~')
 KUBOS_DIR = os.path.join(HOME_DIR, '.kubos')

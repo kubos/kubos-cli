@@ -42,10 +42,22 @@ def check_provided_version(requested_version, repo):
     if requested_version == active_version:
         print 'The requested version: %s is already active. There\'s nothing to do..' % requested_version
         return
+    verify_action_with_user(requested_version, repo)
     set_active_version(requested_version, repo)
     if active_version:
         print 'Deactivating version: %s' % active_version
     print '\nActivating version %s' % requested_version
+
+
+def verify_action_with_user(requested_version, repo):
+    if 'example' in repo.git_dir: #Skip user input for the example repo - Check out the lastest tag of kubos-rt-example
+        return
+    yes = set(['yes','ye', 'y'])
+    print '\nThis will checkout version %s of the Kubos Source... continue? [y/n]' % requested_version
+    response = raw_input().lower()
+    if response not in yes:
+        print 'Didn\'t receive a yes response from the user.. Aborting.'
+        sys.exit(1)
 
 
 def set_active_version(set_tag, repo):

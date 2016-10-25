@@ -52,7 +52,7 @@ def clone_repo(repo_dir, repo_url):
             print 'Successfully cloned repo: %s' % repo_url
         else:
             repo = git.Repo(repo_dir)
-            print 'Repo already exists'
+            print 'Repo %s already exists' % repo_url
         fetch_new_tags(repo)
     except git.exc.GitCommandError as e:
         print 'Error: there was an error accessing the remote git repository...'
