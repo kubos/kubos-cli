@@ -5,7 +5,7 @@
 
 
 # NOTE: argcomplete must be first!
-# argcomplete, pip install argcomplete, tab-completion for argparse, Apache-2
+# argcomplete
 import argcomplete
 
 # standard library modules, , ,
@@ -62,8 +62,8 @@ def main():
     # subcommands, and allow lazy loading of subcommand modules:
     parser = options.parser.ArgumentParser(
         formatter_class=argparse.RawTextHelpFormatter,
-        description='Build software using re-usable components.\n'+
-        'For more detailed help on each subcommand, run: yotta <subcommand> --help'
+        description='Kubos-CLI For working with Kubos Projects.\n'+
+        'For more detailed help on each subcommand, run: kubos <subcommand> --help'
     )
     subparser = parser.add_subparsers(dest='subcommand_name', metavar='<subcommand>')
 

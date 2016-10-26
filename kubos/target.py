@@ -1,4 +1,3 @@
-
 # Kubos SDK
 # Copyright (C) 2016 Kubos Corporation
 #
