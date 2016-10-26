@@ -18,15 +18,12 @@ import sys
 import os
 
 from . import options as kubos_options
-from pip.utils import get_installed_version
 
 # hook to support coverage information when yotta runs itself during tests:
 if 'COVERAGE_PROCESS_START' in os.environ:
     import coverage
     coverage.process_startup()
 
-# set __version__ using the installation known by pip
-__version__ = get_installed_version('kubos-cli')
 
 def splitList(l, at_value):
     r = [[]]
@@ -66,10 +63,6 @@ def main():
         'For more detailed help on each subcommand, run: kubos <subcommand> --help'
     )
     subparser = parser.add_subparsers(dest='subcommand_name', metavar='<subcommand>')
-
-    parser.add_argument('--version', action='version', version=__version__,
-        help='display the version'
-    )
 
     # add re-usable top-level options which subcommands may also accept
     options.verbosity.addTo(parser)

@@ -44,7 +44,7 @@ def get_tag_list(repo):
 
 
 def print_tag_list(tag_list):
-    active_version = get_active_version()
+    active_version = get_active_kubos_version()
     for tag in tag_list:
         if tag.name == active_version:
             sys.stdout.write('*')
@@ -56,5 +56,5 @@ def get_latest_tag(tag_list):
     for tag in tag_list:
         if version.parse(tag.name) > version.parse(latest_tag.name):
             latest_tag = tag
-    return latest_tag.name
+    return latest_tag
 

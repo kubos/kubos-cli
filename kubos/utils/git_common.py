@@ -32,7 +32,7 @@ def get_repo(path):
     return repo, origin
 
 
-def get_active_version():
+def get_active_kubos_version():
     if os.path.isfile(KUBOS_VERSION_FILE):
         return open(KUBOS_VERSION_FILE).read()
     else:
