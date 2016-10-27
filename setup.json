@@ -1,0 +1,18 @@
+{
+    "install_requires": [
+        "yotta",
+        "setuptools",
+        "requests==2.10.0",
+        "pager",
+        "appdirs"
+    ],
+    "classifiers": [
+        "Programming Language :: Python :: 2.7"
+    ],
+    "entry_points": {
+        "console_scripts": [
+            "kubos=kubos:main"
+        ]
+    },
+    "test_suite": "kubos.test"
+}
