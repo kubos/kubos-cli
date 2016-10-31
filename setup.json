@@ -1,10 +1,15 @@
 {
     "install_requires": [
-        "yotta",
-        "setuptools",
-        "requests==2.10.0",
+        "appdirs",
+        "argcomplete",
+        "cryptography",
+        "jwt",
+        "gitpython",
+        "packaging",
         "pager",
-        "appdirs"
+        "requests",
+        "setuptools",
+        "yotta"
     ],
     "classifiers": [
         "Programming Language :: Python :: 2.7"

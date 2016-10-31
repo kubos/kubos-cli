@@ -1,6 +1,6 @@
 {
   "name": "kubos-cli",
-  "version": "0.1.4",
+  "version": "0.0.1",
   "edition": "preview",
   "description": "Kubos SDK",
   "author": "Kubos",

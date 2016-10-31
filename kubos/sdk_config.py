@@ -45,10 +45,10 @@ class KubosSDKConfig(object):
         self.appdirs = AppDirs('kubos')
         self.config_path = os.path.join(self.appdirs.user_config_dir, 'kubos-cli.json')
         self.sdk_version = load_sdk_version()
-        self.sdk_edition = load_sdk_edition()
+        #self.sdk_edition = load_sdk_edition()
         self.load_config()
-        thread = threading.Thread(target=self.ping)
-        thread.start()
+        #thread = threading.Thread(target=self.ping)
+        #thread.start()
 
     def load_config(self):
         self.config = {}
