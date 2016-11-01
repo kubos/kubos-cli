@@ -26,13 +26,15 @@ from yotta.options import parser
 
 def addOptions(parser):
     parser.add_argument('set_target', nargs='?', default=None, help='set a new target board or display the current target')
-
+    parser.add_argument('-l', '--list', action='store_true', default=False, help='List all of the available target names')
 
 def execCommand(args, following_args):
     args = vars(args)
     target = args['set_target'] #Confusingly the set_target key is the target the user wants to set, no the currently set target
     default_target = args['target'] #this is either the currently set target or the default stm32f4 discovery target
-    if target != None:
+    if args['list']:
+        print_target_list()
+    elif target != None:
         set_target(target)
     else:
         show_target(default_target)
@@ -65,11 +67,15 @@ def set_target(new_target):
         print '\nTarget Successfully Set to: %s' % new_target
     else:
         if new_target != '':
-            print >>sys.stderr, 'Error: Requested target %s not available.' % new_target
-        print 'Available targets are:\n'
-        for _target in available_target_list:
-            print >>sys.stderr, _target
-        sys.exit(1)
+            print 'Error: Requested target %s not available.' % new_target
+            print_target_list()
+            sys.exit(1)
+
+def print_target_list():
+    target_list = get_target_list()
+    print 'Available targets are:\n'
+    for _target in target_list:
+        print _target
 
 
 def get_target_list():
