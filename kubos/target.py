@@ -33,7 +33,7 @@ def execCommand(args, following_args):
     target = args['set_target'] #Confusingly the set_target key is the target the user wants to set, no the currently set target
     default_target = args['target'] #this is either the currently set target or the default stm32f4 discovery target
     if args['list']:
-        pint_target_list()
+        print_target_list()
     elif target != None:
         set_target(target)
     else:
@@ -71,7 +71,7 @@ def set_target(new_target):
             print_target_list()
             sys.exit(1)
 
-def pint_target_list():
+def print_target_list():
     target_list = get_target_list()
     print 'Available targets are:\n'
     for _target in target_list:
