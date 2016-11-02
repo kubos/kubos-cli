@@ -30,7 +30,7 @@ def addOptions(parser):
 
 def execCommand(args, following_args):
     kubos_version = get_active_kubos_version()
-    print 'Kubos-CLI version    : %s' % get_installed_version('kubos-cli')
+    print 'Kubos-CLI version    : %s' % 'v' + get_installed_version('kubos-cli')
     print 'Kubos Source version : %s' % kubos_version
     if not kubos_version:
         if os.path.isdir(KUBOS_SRC_DIR):

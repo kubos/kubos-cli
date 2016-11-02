@@ -21,11 +21,11 @@ Fetch all of the kubos source releases, without activating any of them:
 $ sudo kubos update
 ```
 
-Display a list of all the available release versions `kubos versions` - Note: The versions available to you may different than the following example
+Display a list of all the available release versions `kubos versions` - Note: The versions available to you may be different than the following example
 ```
 $ kubos versions
 
-Availalbe versions are:
+Available versions are:
 v0.0.0
 v0.0.1
 v0.0.2
@@ -45,7 +45,7 @@ Display the active versions of the kubos-cli and kubos source at anytime with `k
 ```
 kubos version
 
-Kubos-CLI version    : 0.1.2
+Kubos-CLI version    : v0.1.2
 Kubos Source version : v0.0.0
 ```
 
