@@ -5,6 +5,7 @@
         "cryptography",
         "jwt",
         "gitpython",
+        "ndg-httpsclient",
         "packaging",
         "pager",
         "requests",

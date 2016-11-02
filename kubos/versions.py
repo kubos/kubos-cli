@@ -27,10 +27,13 @@ def addOptions(parser):
 
 
 def execCommand(args, following_args):
+    if not os.path.isdir(KUBOS_SRC_DIR):
+        print 'No versions are locally available. Please run `sudo kubos update` to pull all of the available source versions.'
+        sys.exit(1)
     repo, origin = get_repo(KUBOS_SRC_DIR)
     tag_list = get_tag_list(repo)
     latest   = get_latest_tag(tag_list)
-    print 'Availalbe versions are:'
+    print 'Available versions are:'
     print_tag_list(tag_list)
     print 'The most recent release is: %s' % latest
 
