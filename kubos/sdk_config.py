@@ -34,10 +34,6 @@ def load_sdk_version():
     return get_installed_version('kubos-sdk')
 
 
-def load_sdk_edition():
-    return get_sdk_attribute('edition')
-
-
 class KubosSDKConfig(object):
     json_template = '{"TableName" : "AnalyticsTest", "Item": {"Timestamp" : %s, "UUID" : "%s"}}'
 
@@ -45,7 +41,6 @@ class KubosSDKConfig(object):
         self.appdirs = AppDirs('kubos')
         self.config_path = os.path.join(self.appdirs.user_config_dir, 'kubos-cli.json')
         self.sdk_version = load_sdk_version()
-        #self.sdk_edition = load_sdk_edition()
         self.load_config()
         #thread = threading.Thread(target=self.ping)
         #thread.start()
@@ -75,7 +70,5 @@ class KubosSDKConfig(object):
             requests.post("https://drvpjfu9ci.execute-api.us-east-1.amazonaws.com/prod/AnalyticsTest", data=data) # This URL needs to be changed to the production DynamoDB endpoint
         except:
             pass
-
-
 
 _config_class = KubosSDKConfig
