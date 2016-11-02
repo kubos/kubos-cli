@@ -1,13 +1,13 @@
-# Kubos SDK
+# Kubos CLI
 
 ## NOTE: This module is primarily meant to run inside of a provisioned Vagrant Box.
-## ALMOST ALL USERS WILL WANT TO USE THIS IN THE VAGRANT CONTEXT SEE <LINK> FOR THE VAGRANT INSTALLATION DOCS
+## ALMOST ALL USERS WILL WANT TO USE THIS IN THE VAGRANT CONTEXT SEE [THE KUBOS DOCS](http://docs.kubos.co) FOR THE VAGRANT INSTALLATION DOCS
 
 #### Advanced users may want to use this natively on their machines. Below are the instructions for manual installation
 
 ### Installation:
 
-Install the kubos cli
+Install the kubos-cli
 
 ```
 $ pip install kubos-cli
