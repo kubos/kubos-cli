@@ -30,14 +30,17 @@ def addOptions(parser):
 
 def execCommand(args, following_args):
     kubos_version = get_active_kubos_version()
-    print 'Kubos-CLI version    : %s' % get_installed_version('kubos-cli')
+    print 'Kubos-CLI version    : %s' % 'v' + get_installed_version('kubos-cli')
     print 'Kubos Source version : %s' % kubos_version
     if not kubos_version:
-        repo, origin = get_repo(KUBOS_SRC_DIR)
-        version_list = get_tag_list(repo)
-        print '\nThere\'s not an active Kubos source version..'
-        print 'The available versions are:'
-        print_tag_list(version_list)
-        print 'Please run kubos update <version> (with one of the above versions)' + \
-              'to checkout a version of the source before working with a project.'
-
+        if os.path.isdir(KUBOS_SRC_DIR):
+            repo, origin = get_repo(KUBOS_SRC_DIR)
+            version_list = get_tag_list(repo)
+            print '\nThere\'s not an active Kubos source version..'
+            print 'The available versions are:'
+            print_tag_list(version_list)
+            print 'Please run kubos update <version> (with one of the above versions)' + \
+                  'to checkout a version of the source before working with a project.'
+        else:
+            print 'There are not any local versions of the kubos source currently.'
+            print 'Please run `sudo kubos update` to pull the kubos source before running `kubos version` again'
