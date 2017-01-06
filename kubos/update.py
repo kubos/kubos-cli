@@ -33,10 +33,6 @@ def addOptions(parser):
 
 
 def execCommand(args, following_args):
-    if os.geteuid() != 0:
-        #After changing the version the new target/modules are re-linked to /usr/local/lib.. which requires root to succeed
-        print 'Woops, this command needs to be run as root. Please re-run `sudo kubos update`'
-        sys.exit(1)
     if not os.path.isdir(KUBOS_DIR):
         os.makedirs(KUBOS_DIR)
     os.chdir(KUBOS_DIR)
