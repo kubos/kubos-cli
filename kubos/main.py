@@ -5,7 +5,6 @@
 
 
 # NOTE: argcomplete must be first!
-# argcomplete
 import argcomplete
 
 # standard library modules, , ,
@@ -89,7 +88,6 @@ def main():
         'all dependencies, run:\n  yotta build all_tests\n\n',
         'Build the current module.'
     )
-    add_kubos_command('version', 'version', 'Bump the module version, or (with no arguments) display the current version.')
     add_yotta_command('link', 'link',
         'Symlink a module to be used into another module.\n\n'+
         'Use: "yotta link" in a module to link it globally, then use "yotta '+
@@ -136,7 +134,8 @@ def main():
     add_yotta_command('config', 'config', 'Display the target configuration info.')
     add_yotta_command('shrinkwrap', 'shrinkwrap', 'Create a yotta-shrinkwrap.json file to freeze dependency versions.')
     add_kubos_command('version', 'version', 'Display the current active version of the cli and KubOS source repo.')
-    add_kubos_command('versions', 'versions', 'Display the available versions of the KubOS Source.')
+    add_kubos_command('use', 'use', 'Set a new version of the KubOS modules to build your projects against.')
+    add_kubos_command('versions', 'versions', 'Display the available versions of the KubOS source.')
 
     # short synonyms, subparser.choices is a dictionary, so use update() to
     # merge in the keys from another dictionary

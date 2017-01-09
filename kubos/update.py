@@ -23,6 +23,7 @@ import threading
 import os
 
 from kubos.utils.git_common import *
+from kubos.utils.sdk import *
 from kubos.utils import status_spinner
 from kubos import versions
 from packaging import version
@@ -68,94 +69,14 @@ def clone_repo(repo_dir, repo_url):
         else:
             repo = git.Repo(repo_dir)
             print 'Repo %s already exists' % repo_url
-        fetch_new_tags(repo)
+        fetch_tags(repo)
+        #Link the modules/targets from the kubos repo to the default, Global location
+        link_entities(KUBOS_SRC_DIR, None)
         return repo
     except git.exc.GitCommandError as e:
         print 'Error: there was an error accessing the remote git repository...'
-        print 'The specific error is: \n\n %s' % e
+        print >>sys.stderr, 'The specific error is: \n\n %s' % e
 
 
-def fetch_new_tags(repo):
-    origin = repo.remotes.origin
-    tag_list = []
-    latest_tag = ""
-    print 'Checking for newer releases...'
-    origin.fetch(tags=True)
-    relink_modules(KUBOS_SRC_DIR)
 
-
-def relink_modules(path):
-    logging.disable(logging.WARNING)
-    for subdir in os.listdir(path):
-        cur_dir = os.path.join(path, subdir)
-        if os.path.isdir(cur_dir):
-            relink_modules(cur_dir)
-        elif subdir == 'module.json':
-            link_module_globally(cur_dir)
-        elif subdir == 'target.json':
-            link_target_globally(cur_dir)
-
-
-def link_target_globally(path):
-    path = os.path.dirname(path)
-    start_dir = os.getcwd()
-    os.chdir(path)
-    link_target_args = argparse.Namespace(target_or_path=None,
-                                          config=None,
-                                          target=detect.kubosDefaultTarget(),
-                                          save_global=True,
-                                          no_install=False)
-    link_target.execCommand(link_target_args, '')
-    os.chdir(start_dir)
-
-
-def link_module_globally(path):
-    start_dir = os.getcwd()
-    path_dir_name = os.path.dirname(path)
-    os.chdir(path_dir_name)
-    link_args = argparse.Namespace(module_or_path=None,
-                                   config=None,
-                                   target=detect.kubosDefaultTarget())
-    link.execCommand(link_args, None)
-    os.chdir(start_dir)
-
-
-def check_provided_version(requested_version, repo):
-    #the repo paramenter allows this function to be used for the example project as well
-    active_version = get_active_kubos_version()
-    if requested_version == active_version:
-        print 'The requested version: %s is already active. There\'s nothing to do..' % requested_version
-        return
-    #verify_action_with_user(requested_version, repo)
-    set_active_version(requested_version, repo)
-    if active_version:
-        print 'Deactivating Kubos source version: %s' % active_version
-    print '\nActivating Kubos source version %s' % requested_version
-
-
-def set_active_version(set_tag, repo):
-    origin = repo.remotes.origin
-    tag_list = versions.get_tag_list(repo)
-    found = False
-    for tag in tag_list:
-        if tag.name == set_tag:
-            checkout(tag, repo)
-            found = True
-            break
-    if not found:
-        print >>sys.stderr, '\nThe requested version "%s" is not an avaialble version.' % set_tag
-        print >>sys.stderr, 'Available versions are: '
-        versions.print_tag_list(tag_list)
-        sys.exit(1)
-
-
-def checkout(tag, repo):
-    try:
-        repo.git.checkout(tag.name)
-        if repo.git_dir == os.path.join(KUBOS_SRC_DIR, '.git'): #only set the version file for kubos source checkouts, not for example checkouts
-            with open(KUBOS_VERSION_FILE, 'w') as version_file:
-                version_file.write(tag.name)
-    except:
-        print 'There was an error checking out the tag "%s"' % tag.name
-        print 'The error details are: \n\n%s' %  sys.exc_info()[0]
 

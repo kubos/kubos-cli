@@ -25,7 +25,7 @@ from pip.utils import get_installed_version
 from yotta.options import parser
 
 def addOptions(parser):
-    pass
+    parser.add_argument('-l', '--list', action='store_true', default=False, help='List all of the available target names')
 
 
 def execCommand(args, following_args):
@@ -39,7 +39,7 @@ def execCommand(args, following_args):
             print '\nThere\'s not an active Kubos source version..'
             print 'The available versions are:'
             print_tag_list(version_list)
-            print 'Please run kubos update <version> (with one of the above versions)' + \
+            print 'Please run kubos use <version> (with one of the above versions)' + \
                   'to checkout a version of the source before working with a project.'
         else:
             print 'There are not any local versions of the kubos source currently.'
