@@ -19,9 +19,11 @@ import json
 import logging
 import sys
 import time
+import threading
 import os
 
 from kubos.utils.git_common import *
+from kubos.utils import status_spinner
 from kubos import versions
 from packaging import version
 from yotta import link, link_target
@@ -36,8 +38,11 @@ def execCommand(args, following_args):
     if not os.path.isdir(KUBOS_DIR):
         os.makedirs(KUBOS_DIR)
     os.chdir(KUBOS_DIR)
+    print 'Checking for the most recent KubOS Source...'
+    spinner = status_spinner.start_spinner()
     src_repo = clone_repo(KUBOS_SRC_DIR, KUBOS_SRC_URL)
     clone_example_repo(KUBOS_EXAMPLE_DIR, KUBOS_EXAMPLE_URL)
+    status_spinner.stop_spinner(spinner)
     set_version = vars(args)['set_version']
     if set_version:
         check_provided_version(set_version, src_repo)
