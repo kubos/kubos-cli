@@ -18,11 +18,6 @@ import os
 
 from . import options as kubos_options
 
-# hook to support coverage information when yotta runs itself during tests:
-if 'COVERAGE_PROCESS_START' in os.environ:
-    import coverage
-    coverage.process_startup()
-
 
 def splitList(l, at_value):
     r = [[]]
