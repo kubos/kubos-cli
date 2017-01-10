@@ -100,7 +100,7 @@ def run_link(src, dst):
     link_args = argparse.Namespace(module_or_path=entity_name,
                                    target_or_path=entity_name,
                                    config=None,
-                                   target=yotta.lib.detect.kubosDefaultTarget(),
+                                   target=yotta.lib.detect.systemDefaultTarget(),
                                    save_global=True,
                                    no_install=False)
     link_module.execCommand(link_args, '')
