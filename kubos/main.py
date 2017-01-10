@@ -83,7 +83,7 @@ def main():
         'all dependencies, run:\n  yotta build all_tests\n\n',
         'Build the current module.'
     )
-    add_yotta_command('link', 'link',
+    add_kubos_command('link', 'link',
         'Symlink a module to be used into another module.\n\n'+
         'Use: "yotta link" in a module to link it globally, then use "yotta '+
         'link <modulename>" to link it into the module where you want to use '+

@@ -49,6 +49,7 @@ def checkout(tag, repo):
         print 'There was an error checking out the tag "%s"' % tag.name
         print 'The error details are: \n\n%s' %  sys.exc_info()[0]
 
+
 def fetch_tags(repo):
     origin = repo.remotes.origin
     tag_list = []

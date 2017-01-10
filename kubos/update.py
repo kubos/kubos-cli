@@ -71,7 +71,7 @@ def clone_repo(repo_dir, repo_url):
             print 'Repo %s already exists' % repo_url
         fetch_tags(repo)
         #Link the modules/targets from the kubos repo to the default, Global location
-        link_entities(KUBOS_SRC_DIR, None)
+        link_to_global_cache(KUBOS_SRC_DIR)
         return repo
     except git.exc.GitCommandError as e:
         print 'Error: there was an error accessing the remote git repository...'
