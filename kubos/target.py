@@ -48,13 +48,14 @@ def show_target(default_target):
                                          target=default_target)
         target.displayCurrentTarget(target_args)
     else:
-        print 'No target currently set'
+        logging.warning('No target currently set')
+        logging.info('Use the "kubos target <target name>" command to set a target')
         set_target('') #prints the available target list
 
 
 def set_target(new_target):
     available_target_list = get_target_list()
-    print 'Setting Target: %s' % new_target.split('@')[0]
+    logging.info('Setting Target: %s' % new_target.split('@')[0])
 
     if new_target in available_target_list:
         new_target_args = argparse.Namespace(target_or_path=new_target,
@@ -64,18 +65,18 @@ def set_target(new_target):
                                               save_global=False,
                                               no_install=False)
         target.execCommand(new_target_args, '')
-        print '\nTarget Successfully Set to: %s' % new_target
+        logging.info('Target Successfully Set to: %s' % new_target)
     else:
         if new_target != '':
-            print 'Error: Requested target %s not available.' % new_target
+            logging.error('Requested target %s not available.' % new_target)
             print_target_list()
             sys.exit(1)
 
 def print_target_list():
     target_list = get_target_list()
-    print 'Available targets are:\n'
+    logging.info('Available targets are:\n')
     for _target in target_list:
-        print _target
+        logging.info(_target)
 
 
 def get_target_list():

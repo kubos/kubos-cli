@@ -35,7 +35,7 @@ def execCommand(args, following_args):
     if not os.path.isdir(KUBOS_DIR):
         os.makedirs(KUBOS_DIR)
     os.chdir(KUBOS_DIR)
-    print 'Checking for the most recent KubOS Source...'
+    logging.info('Checking for the most recent KubOS Source...')
     spinner = status_spinner.start_spinner()
     src_repo = clone_repo(KUBOS_SRC_DIR, KUBOS_SRC_URL)
     clone_example_repo(KUBOS_EXAMPLE_DIR, KUBOS_EXAMPLE_URL)
@@ -54,24 +54,24 @@ def clone_example_repo(repo_dir, repo_url):
     repo = clone_repo(repo_dir, repo_url)
     tag_list = versions.get_tag_list(repo)
     latest_tag = versions.get_latest_tag(tag_list)
-    checkout(latest_tag, repo)
+    checkout_and_update_version_file(latest_tag, repo)
 
 
 def clone_repo(repo_dir, repo_url):
     try:
         if not os.path.isdir(repo_dir):
             repo = git.Repo.clone_from(repo_url, repo_dir)
-            print 'Successfully cloned repo: %s' % repo_url
+            logging.info('Successfully cloned repo: %s' % repo_url)
         else:
             repo = git.Repo(repo_dir)
-            print 'Repo %s already exists' % repo_url
+            logging.info('Repo %s already exists' % repo_url)
         fetch_tags(repo)
         #Link the modules/targets from the kubos repo to the default, Global location
         link_to_global_cache(KUBOS_SRC_DIR)
         return repo
     except git.exc.GitCommandError as e:
-        print 'Error: there was an error accessing the remote git repository...'
-        print >>sys.stderr, 'The specific error is: \n\n %s' % e
+        logging.error('Error: there was an error accessing the remote git repository...')
+        logging.debug('The specific error is: \n\n %s' % e)
 
 
 

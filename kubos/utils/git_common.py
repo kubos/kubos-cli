@@ -14,6 +14,7 @@
 # limitations under the License.
 
 import git
+import logging
 import os
 
 KUBOS_SRC_URL = 'https://github.com/kubostech/kubos'
@@ -39,21 +40,19 @@ def get_active_kubos_version():
         return None
 
 
-def checkout(tag, repo):
+def checkout_and_update_version_file(tag, repo):
     try:
         repo.git.checkout(tag.name)
         if repo.git_dir == os.path.join(KUBOS_SRC_DIR, '.git'): #only set the version file for kubos source checkouts, not for example checkouts
             with open(KUBOS_VERSION_FILE, 'w') as version_file:
                 version_file.write(tag.name)
     except:
-        print 'There was an error checking out the tag "%s"' % tag.name
-        print 'The error details are: \n\n%s' %  sys.exc_info()[0]
+        logging.error('There was an error checking out the tag "%s"' % tag.name)
+        logging.debug('The error details are: %s' %  sys.exc_info()[0])
 
 
 def fetch_tags(repo):
     origin = repo.remotes.origin
-    tag_list = []
-    latest_tag = ""
-    print 'Checking for newer releases...' #Tags mark new KubOS releases
+    logging.info('Checking for newer releases...') #Tags mark new KubOS releases
     origin.fetch(tags=True)
 

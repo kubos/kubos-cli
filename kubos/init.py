@@ -31,11 +31,11 @@ def addOptions(parser):
 
 def execCommand(args, following_args):
     proj_name = vars(args)['proj_name'][0] #vars returns a dict of args. proj_name is a list since nargs=1
-    print 'Initializing project: %s ...' % proj_name
+    logging.info('Initializing project: %s ...' % proj_name)
     proj_name_dir = os.path.join(os.getcwd(), proj_name)
 
     if os.path.isdir(proj_name_dir):
-        print >>sys.stderr, 'The project directory %s already exists. Not overwritting the current directory' % proj_name_dir
+        logging.warning('The project directory %s already exists. Not overwritting the current directory' % proj_name_dir)
         sys.exit(1)
 
     shutil.copytree(KUBOS_EXAMPLE_DIR, proj_name_dir, ignore=shutil.ignore_patterns('.git'))

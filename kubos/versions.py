@@ -28,14 +28,14 @@ def addOptions(parser):
 
 def execCommand(args, following_args):
     if not os.path.isdir(KUBOS_SRC_DIR):
-        print 'No versions are locally available. Please run `kubos update` to pull all of the available source versions.'
+        logging.info('No versions are locally available. Please run `kubos update` to pull all of the available source versions.')
         sys.exit(1)
     repo, origin = get_repo(KUBOS_SRC_DIR)
     tag_list = get_tag_list(repo)
     latest   = get_latest_tag(tag_list)
-    print 'Available versions are:'
+    logging.info('Available versions are:')
     print_tag_list(tag_list)
-    print 'The most recent release is: %s' % latest
+    logging.info('The most recent release is: %s' % latest)
 
 
 def get_tag_list(repo):
@@ -49,9 +49,10 @@ def get_tag_list(repo):
 def print_tag_list(tag_list):
     active_version = get_active_kubos_version()
     for tag in tag_list:
+        tag_name = tag.name #tag.name is immutable...
         if tag.name == active_version:
-            sys.stdout.write('*')
-        print tag.name
+            tag_name = tag.name + ' *'
+        logging.info(tag_name)
 
 
 def get_latest_tag(tag_list):

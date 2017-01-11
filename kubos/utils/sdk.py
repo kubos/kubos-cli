@@ -41,11 +41,13 @@ def get_module_name(path):
     data = json.loads(string)
     return data['name']
 
-def is_marker(entity_name):
+
+def is_module_or_target_root(entity_name):
     #Determine if the directory name is at the root of a module or target
+    #The module.json and target.json file names mark the "root" of a module
     marker_names = ['module.json',
                     'target.json']
-    return True if entity_name in marker_names else False
+    return entity_name in marker_names
 
 
 '''
@@ -70,7 +72,7 @@ def link_entities(src, dst):
     for subdir in os.listdir(src):
         #loop through the subdirectories of src
         cur_dir = os.path.join(src, subdir)
-        if is_marker(subdir):
+        if is_module_or_target_root(subdir):
             #if we're pointing to a target.json or module.json - link the module and return
             #NOTE: This assumes there are not nested modules
             run_link(cur_dir, dst)
@@ -108,9 +110,9 @@ def run_link(src, dst):
 
 
 def link_to_project(project):
-    print 'Linking modules...'
+    logging.info('Linking modules...')
     link_entities(GLOBAL_MODULE_PATH, project)
-    print 'Linking targets...'
+    logging.info('Linking targets...')
     link_entities(GLOBAL_TARGET_PATH, project)
 
 

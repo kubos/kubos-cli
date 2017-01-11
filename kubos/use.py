@@ -36,26 +36,26 @@ def check_provided_version(requested_version, repo):
     #the repo paramenter allows this function to be used for the example project as well
     active_version = get_active_kubos_version()
     if requested_version == active_version:
-        print 'The requested version: %s is already active. There\'s nothing to do..' % requested_version
+        logging.info('The requested version: %s is already active. There\'s nothing to do..' % requested_version)
         return
-    set_active_version(requested_version, repo)
+    set_active_kubos_version(requested_version, repo)
     if active_version:
-        print 'Deactivating Kubos source version: %s' % active_version
-    print '\nActivating Kubos source version %s' % requested_version
+        logging.info('Deactivating Kubos source version: %s' % active_version)
+    logging.info('\nActivating Kubos source version %s' % requested_version)
 
 
-def set_active_version(set_tag, repo):
+def set_active_kubos_version(set_tag, repo):
     origin = repo.remotes.origin
     tag_list = versions.get_tag_list(repo)
     found = False
     for tag in tag_list:
         if tag.name == set_tag:
-            checkout(tag, repo)
+            checkout_and_update_version_file(tag, repo)
             found = True
             break
     if not found:
-        print >>sys.stderr, '\nThe requested version "%s" is not an avaialble version.' % set_tag
-        print >>sys.stderr, 'Available versions are: '
+        logging.error('The requested version "%s" is not an avaialble version.' % set_tag)
+        logging.info('Available versions are: ')
         versions.print_tag_list(tag_list)
         sys.exit(1)
 
