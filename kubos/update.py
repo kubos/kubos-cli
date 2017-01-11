@@ -19,16 +19,12 @@ import json
 import logging
 import sys
 import time
-import threading
 import os
 
 from kubos.utils.git_common import *
 from kubos.utils.sdk import *
 from kubos.utils import status_spinner
 from kubos import versions
-from packaging import version
-from yotta import link, link_target
-from yotta.lib import detect
 from yotta.options import parser
 
 def addOptions(parser):

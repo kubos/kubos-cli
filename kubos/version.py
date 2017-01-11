@@ -25,7 +25,7 @@ from pip.utils import get_installed_version
 from yotta.options import parser
 
 def addOptions(parser):
-    parser.add_argument('-l', '--list', action='store_true', default=False, help='List all of the available target names')
+    parser.add_argument('-l', '--list', action='store_true', default=False, help='List all of the locally available KubOS source versions')
 
 
 def execCommand(args, following_args):
