@@ -26,17 +26,17 @@ def addOptions(parser):
 
 def execCommand(args, following_args):
     '''
-    The point of defining the link command is to allow the CLI to link all of the global targets
-    and modules into a project that was not created with the kubos-cli. Otherwise, when a project
-    is cloned from Github (rather than created with the kubos-cli `init` command, each target and
-    module would have to be linked in individually.
+    Defining a specific `kubos link` command allows the CLI to "bulk" link all of the global targets
+    and modules into a project in one step. This is useful for instances where either new kubos modules
+    are added after a Kubos update, or for projects that were cloned from github rather than created
+    with the CLI `init` command.
 
-    If the -a or --all argument is not provided, this command proxies to the default yotta command
+    If the -a or --all argument is not provided this command proxies to the default yotta command
     implementation.
     '''
+
     args = vars(args)
     if args['all']:
-        #TODO: Add some sort of verification to the cwd -> make sure we're actually in a project directory
         link_to_project(os.getcwd())
     else:
         link.execCommand(args, following_args)
