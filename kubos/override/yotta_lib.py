@@ -21,8 +21,10 @@ convenient to use in the Kubos-cli.
 '''
 
 import yotta.lib.access
-from reimplemented_modules import access, detect
+from reimplemented_modules import access, cmakegen, component, detect
 
 def exec_override():
     yotta.lib.access = access
     yotta.lib.detect = detect
+    yotta.lib.cmakegen = cmakegen
+    yotta.lib.component = component
