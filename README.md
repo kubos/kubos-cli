@@ -59,6 +59,16 @@ $ kubos init  <project name>
 ```
 
 
+By default, this will create a new KubOS project with example code to run on KubOS RT.  If you
+would like to create a project with example code to run on KubOS Linux, add the '--linux' 
+(or '-l') option.
+
+
+```
+$ kubos init --linux <project name>
+```
+
+
 #### Setting a Target Board
 Kubos Projects automatically set and use predefined build, flash and debug configurations based on the hardware platform you are working on.
 
