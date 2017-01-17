@@ -41,11 +41,9 @@ def execCommand(args, following_args):
         print >>sys.stderr, 'The project directory %s already exists. Not overwritting the current directory' % proj_name_dir
         sys.exit(1)
 
-    #Set the correct example directory based on the desired OS
-    if args.linux is True:
-        shutil.copytree(KUBOS_LINUX_EXAMPLE_DIR, proj_name_dir, ignore=shutil.ignore_patterns('.git'))
-    else:
-        shutil.copytree(KUBOS_RT_EXAMPLE_DIR, proj_name_dir, ignore=shutil.ignore_patterns('.git'))
+    #Copy in the correct example directory based on the desired OS
+    example_dir = KUBOS_LINUX_EXAMPLE_DIR if args.linux else KUBOS_RT_EXAMPLE_DIR
+    shutil.copytree(example_dir, proj_name_dir, ignore=shutil.ignore_patterns('.git'))
         
     #change project name in module.json
     module_json = os.path.join(proj_name_dir, 'module.json')
