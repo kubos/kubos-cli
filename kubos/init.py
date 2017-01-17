@@ -21,13 +21,16 @@ import shutil
 import sys
 
 from kubos.utils.git_common import KUBOS_EXAMPLE_DIR
+from kubos.utils.git_common import KUBOS_LINUX_EXAMPLE_DIR
 from yotta import link, link_target
 from yotta.lib import folders
 from yotta.lib.detect import systemDefaultTarget
 
 def addOptions(parser):
     parser.add_argument('proj_name', nargs=1, help='specify the project name')
-
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('-l', '--linux', action='store_true', help='Initialize Kubos SDK project for KubOS Linux'
+    group.add_argument('-r', '--rt', action='store_true', default=True, help='Initialize Kubos SDK project for KubOS RT'
 
 def execCommand(args, following_args):
     proj_name = vars(args)['proj_name'][0] #vars returns a dict of args. proj_name is a list since nargs=1
@@ -38,7 +41,12 @@ def execCommand(args, following_args):
         print >>sys.stderr, 'The project directory %s already exists. Not overwritting the current directory' % proj_name_dir
         sys.exit(1)
 
-    shutil.copytree(KUBOS_EXAMPLE_DIR, proj_name_dir, ignore=shutil.ignore_patterns('.git'))
+    #Set the correct example directory based on the desired OS
+    if args['linux']:
+        shutil.copytree(KUBOS_LINUX_EXAMPLE_DIR, proj_name_dir, ignore=shutil.ignore_patterns('.git'))
+    else:
+        shutil.copytree(KUBOS_EXAMPLE_DIR, proj_name_dir, ignore=shutil.ignore_patterns('.git'))
+        
     #change project name in module.json
     module_json = os.path.join(proj_name_dir, 'module.json')
     with open(module_json, 'r') as init_module_json:
