@@ -41,7 +41,7 @@ def execCommand(args, following_args):
         os.makedirs(KUBOS_DIR)
     os.chdir(KUBOS_DIR)
     src_repo = clone_repo(KUBOS_SRC_DIR, KUBOS_SRC_URL)
-    clone_example_repo(KUBOS_EXAMPLE_DIR, KUBOS_EXAMPLE_URL)
+    clone_example_repo(KUBOS_RT_EXAMPLE_DIR, KUBOS_RT_EXAMPLE_URL)
     clone_example_repo(KUBOS_LINUX_EXAMPLE_DIR, KUBOS_LINUX_EXAMPLE_URL)
     set_version = vars(args)['set_version']
     if set_version:

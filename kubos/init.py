@@ -20,7 +20,7 @@ import os
 import shutil
 import sys
 
-from kubos.utils.git_common import KUBOS_EXAMPLE_DIR
+from kubos.utils.git_common import KUBOS_RT_EXAMPLE_DIR
 from kubos.utils.git_common import KUBOS_LINUX_EXAMPLE_DIR
 from yotta import link, link_target
 from yotta.lib import folders
@@ -45,7 +45,7 @@ def execCommand(args, following_args):
     if args.linux is True:
         shutil.copytree(KUBOS_LINUX_EXAMPLE_DIR, proj_name_dir, ignore=shutil.ignore_patterns('.git'))
     else:
-        shutil.copytree(KUBOS_EXAMPLE_DIR, proj_name_dir, ignore=shutil.ignore_patterns('.git'))
+        shutil.copytree(KUBOS_RT_EXAMPLE_DIR, proj_name_dir, ignore=shutil.ignore_patterns('.git'))
         
     #change project name in module.json
     module_json = os.path.join(proj_name_dir, 'module.json')
