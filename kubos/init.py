@@ -29,8 +29,8 @@ from yotta.lib.detect import systemDefaultTarget
 def addOptions(parser):
     parser.add_argument('proj_name', nargs=1, help='specify the project name')
     group = parser.add_mutually_exclusive_group()
-    group.add_argument('-l', '--linux', action='store_true', help='Initialize Kubos SDK project for KubOS Linux'
-    group.add_argument('-r', '--rt', action='store_true', default=True, help='Initialize Kubos SDK project for KubOS RT'
+    group.add_argument('-l', '--linux', action='store_true', help='Initialize Kubos SDK project for KubOS Linux')
+    group.add_argument('-r', '--rt', action='store_true', default=True, help='Initialize Kubos SDK project for KubOS RT')
 
 def execCommand(args, following_args):
     proj_name = vars(args)['proj_name'][0] #vars returns a dict of args. proj_name is a list since nargs=1
@@ -42,7 +42,7 @@ def execCommand(args, following_args):
         sys.exit(1)
 
     #Set the correct example directory based on the desired OS
-    if args['linux']:
+    if args.linux is True:
         shutil.copytree(KUBOS_LINUX_EXAMPLE_DIR, proj_name_dir, ignore=shutil.ignore_patterns('.git'))
     else:
         shutil.copytree(KUBOS_EXAMPLE_DIR, proj_name_dir, ignore=shutil.ignore_patterns('.git'))
