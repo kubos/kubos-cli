@@ -18,7 +18,7 @@ import sys
 import os
 
 #Includes all of the sdk path variables
-from kubos.utils.git_common import *
+from kubos.utils.git_utils import *
 from packaging import version
 from yotta.options import parser
 
@@ -36,29 +36,4 @@ def execCommand(args, following_args):
     logging.info('Available versions are:')
     print_tag_list(tag_list)
     logging.info('The most recent release is: %s' % latest)
-
-
-def get_tag_list(repo):
-    tags = repo.tags
-    tag_list = []
-    for tag in tags:
-        tag_list.append(tag)
-    return tag_list
-
-
-def print_tag_list(tag_list):
-    active_version = get_active_kubos_version()
-    for tag in tag_list:
-        tag_name = tag.name #tag.name is immutable...
-        if tag.name == active_version:
-            tag_name = tag.name + ' *'
-        logging.info(tag_name)
-
-
-def get_latest_tag(tag_list):
-    latest_tag = git.TagReference("", "", check_path=False) #Set to a dummy tag that will be less than any other valid tag
-    for tag in tag_list:
-        if version.parse(tag.name) > version.parse(latest_tag.name):
-            latest_tag = tag
-    return latest_tag
 

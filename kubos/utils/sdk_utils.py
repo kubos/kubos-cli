@@ -17,15 +17,11 @@ import argparse
 import json
 import logging
 import os
-
-from pkg_resources import resource_filename
-from yotta import link, link_target
 import yotta
+import yotta.link
+import yotta.link_target
 
-KUBOS_RESOURCE_DIR = os.path.join(resource_filename(__name__, ''), '..')
-SDK_MODULE_JSON = os.path.join(KUBOS_RESOURCE_DIR, 'module.json')
-GLOBAL_TARGET_PATH  = os.path.join('/', 'usr', 'local', 'lib', 'yotta_targets')
-GLOBAL_MODULE_PATH  = os.path.join('/', 'usr', 'local', 'lib', 'yotta_modules')
+from .constants import *
 
 def get_sdk_attribute(attr):
     sdk_data = json.load(open(SDK_MODULE_JSON, 'r'))
@@ -87,7 +83,7 @@ def run_link(src, dst):
     This is used for proxying to the yotta link and link_target commands that actually
     generate the links to or from the global cache.
     '''
-    link_module = link if 'module' in src else link_target
+    link_module = yotta.link if 'module' in src else yotta.link_target
     if dst:
         #we're linking to a project from the global cache so we need to link the module by name
         entity_name = get_module_name(src)
@@ -109,7 +105,7 @@ def run_link(src, dst):
     os.chdir(start_dir)
 
 
-def link_to_project(project):
+def link_global_cache_to_project(project):
     logging.info('Linking modules...')
     link_entities(GLOBAL_MODULE_PATH, project)
     logging.info('Linking targets...')

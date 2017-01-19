@@ -14,16 +14,17 @@
 # limitations under the License.
 
 import argparse
-import git
 import json
 import logging
 import sys
 import time
 import os
 
-from kubos.utils.git_common import *
-from kubos.utils.sdk import *
-from kubos.utils import status_spinner
+
+from .utils import git_utils, \
+                   sdk_utils, \
+                   status_spinner
+from .utils.constants import *
 from kubos import versions
 from yotta.options import parser
 
@@ -37,43 +38,11 @@ def execCommand(args, following_args):
     os.chdir(KUBOS_DIR)
     logging.info('Checking for the most recent KubOS Source...')
     spinner = status_spinner.start_spinner()
-    src_repo = clone_repo(KUBOS_SRC_DIR, KUBOS_SRC_URL)
-    clone_example_repo(KUBOS_RT_EXAMPLE_DIR, KUBOS_RT_EXAMPLE_URL)
-    clone_example_repo(KUBOS_LINUX_EXAMPLE_DIR, KUBOS_LINUX_EXAMPLE_URL)
+    src_repo = git_utils.clone_repo(KUBOS_SRC_DIR, KUBOS_SRC_URL)
+    git_utils.clone_example_repo(KUBOS_RT_EXAMPLE_DIR, KUBOS_RT_EXAMPLE_URL)
+    git_utils.clone_example_repo(KUBOS_LINUX_EXAMPLE_DIR, KUBOS_LINUX_EXAMPLE_URL)
     status_spinner.stop_spinner(spinner)
     set_version = vars(args)['set_version']
     if set_version:
         check_provided_version(set_version, src_repo)
-
-
-def clone_example_repo(repo_dir, repo_url):
-    '''
-    For the example repos (kubos-rt-example, kubos-linux-example) we 
-    simply checkout the latest version, rather than making the user 
-    specify a specific version of the example repo.
-    '''
-    repo = clone_repo(repo_dir, repo_url)
-    tag_list = versions.get_tag_list(repo)
-    latest_tag = versions.get_latest_tag(tag_list)
-    checkout_and_update_version_file(latest_tag, repo)
-
-
-def clone_repo(repo_dir, repo_url):
-    try:
-        if not os.path.isdir(repo_dir):
-            repo = git.Repo.clone_from(repo_url, repo_dir)
-            logging.info('Successfully cloned repo: %s' % repo_url)
-        else:
-            repo = git.Repo(repo_dir)
-            logging.info('Repo %s already exists' % repo_url)
-        fetch_tags(repo)
-        #Link the modules/targets from the kubos repo to the default, Global location
-        link_to_global_cache(KUBOS_SRC_DIR)
-        return repo
-    except git.exc.GitCommandError as e:
-        logging.error('Error: there was an error accessing the remote git repository...')
-        logging.debug('The specific error is: \n\n %s' % e)
-
-
-
 

@@ -15,7 +15,7 @@
 
 
 
-from kubos.utils.sdk import *
+from kubos.utils.sdk_utils import *
 from yotta import link
 from yotta.options import parser
 
@@ -37,7 +37,7 @@ def execCommand(args, following_args):
 
     args = vars(args)
     if args['all']:
-        link_to_project(os.getcwd())
+        link_global_cache_to_project(os.getcwd())
     else:
         link.execCommand(args, following_args)
 

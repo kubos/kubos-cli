@@ -22,7 +22,7 @@ import time
 import uuid
 
 from appdirs import AppDirs
-from kubos.utils.sdk import get_sdk_attribute
+from kubos.utils.sdk_utils import get_sdk_attribute
 from pip.utils import get_installed_version
 
 

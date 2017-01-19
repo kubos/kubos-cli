@@ -17,10 +17,9 @@ import git
 import sys
 import os
 
+from .utils import git_utils
 #Includes all of the sdk path variables
-from kubos.utils.git_common import *
-from kubos.versions import get_tag_list, print_tag_list
-from packaging import version
+from .utils.git_utils import *
 from pip.utils import get_installed_version
 from yotta.options import parser
 
@@ -29,7 +28,7 @@ def addOptions(parser):
 
 
 def execCommand(args, following_args):
-    kubos_version = get_active_kubos_version()
+    kubos_version = git_utils.get_active_kubos_version()
     logging.info('Kubos-CLI version    : %s' % 'v' + get_installed_version('kubos-cli'))
     logging.info('Kubos Source version : %s' % kubos_version)
     if not kubos_version:

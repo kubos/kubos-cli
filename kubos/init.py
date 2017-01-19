@@ -20,8 +20,8 @@ import os
 import shutil
 import sys
 
-from kubos.utils.git_common import KUBOS_RT_EXAMPLE_DIR
-from kubos.utils.git_common import KUBOS_LINUX_EXAMPLE_DIR
+from .utils.constants import KUBOS_RT_EXAMPLE_DIR, KUBOS_LINUX_EXAMPLE_DIR, KUBOS_SRC_DIR
+from .utils import sdk_utils
 from yotta import link, link_target
 from yotta.lib import folders
 from yotta.lib.detect import systemDefaultTarget
@@ -58,9 +58,7 @@ def execCommand(args, following_args):
                                      separators=(',', ':'))
         final_module_json.write(str_module_data)
     os.chdir(proj_name_dir)
-    link_kubos_modules()
-    link_kubos_targets()
-
+    sdk_utils.link_global_cache_to_project(proj_name_dir)
 
 def get_target_list():
     '''

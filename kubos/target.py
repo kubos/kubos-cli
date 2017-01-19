@@ -19,7 +19,8 @@ import os
 import json
 import yotta.lib.globalconf as globalconf
 
-from kubos.utils.sdk import *
+from kubos.utils.constants import GLOBAL_TARGET_PATH
+from kubos.utils.sdk_utils import *
 from yotta import target
 from yotta.options import parser
 

@@ -13,13 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import git
-import logging
 import os
+from pkg_resources import resource_filename
 
 KUBOS_SRC_URL = 'https://github.com/kubostech/kubos'
 KUBOS_RT_EXAMPLE_URL = 'https://github.com/kubostech/kubos-rt-example'
 KUBOS_LINUX_EXAMPLE_URL = 'https://github.com/kubostech/kubos-linux-example'
+
 HOME_DIR = os.path.expanduser('~')
 KUBOS_DIR = os.path.join(HOME_DIR, '.kubos')
 KUBOS_SRC_DIR = os.path.join(KUBOS_DIR, 'kubos')
@@ -29,32 +29,8 @@ KUBOS_LINUX_EXAMPLE_DIR = os.path.join(KUBOS_DIR, 'linux-example')
 KUBOS_GIT_DIR = os.path.join(KUBOS_SRC_DIR, '.git')
 KUBOS_VERSION_FILE = os.path.join(KUBOS_DIR, 'version.txt')
 
-def get_repo(path):
-    repo = git.Repo(path)
-    origin = repo.remotes.origin
-    return repo, origin
-
-
-def get_active_kubos_version():
-    if os.path.isfile(KUBOS_VERSION_FILE):
-        return open(KUBOS_VERSION_FILE).read()
-    else:
-        return None
-
-
-def checkout_and_update_version_file(tag, repo):
-    try:
-        repo.git.checkout(tag.name)
-        if repo.git_dir == os.path.join(KUBOS_SRC_DIR, '.git'): #only set the version file for kubos source checkouts, not for example checkouts
-            with open(KUBOS_VERSION_FILE, 'w') as version_file:
-                version_file.write(tag.name)
-    except:
-        logging.error('There was an error checking out the tag "%s"' % tag.name)
-        logging.debug('The error details are: %s' %  sys.exc_info()[0])
-
-
-def fetch_tags(repo):
-    origin = repo.remotes.origin
-    logging.info('Checking for newer releases...') #Tags mark new KubOS releases
-    origin.fetch(tags=True)
+KUBOS_RESOURCE_DIR = os.path.join(resource_filename(__name__, ''), '..')
+SDK_MODULE_JSON = os.path.join(KUBOS_RESOURCE_DIR, 'module.json')
+GLOBAL_TARGET_PATH  = os.path.join('/', 'usr', 'local', 'lib', 'yotta_targets')
+GLOBAL_MODULE_PATH  = os.path.join('/', 'usr', 'local', 'lib', 'yotta_modules')
 
