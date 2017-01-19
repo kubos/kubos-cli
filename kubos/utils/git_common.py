@@ -18,11 +18,13 @@ import logging
 import os
 
 KUBOS_SRC_URL = 'https://github.com/kubostech/kubos'
-KUBOS_EXAMPLE_URL = 'https://github.com/kubostech/kubos-rt-example'
+KUBOS_RT_EXAMPLE_URL = 'https://github.com/kubostech/kubos-rt-example'
+KUBOS_LINUX_EXAMPLE_URL = 'https://github.com/kubostech/kubos-linux-example'
 HOME_DIR = os.path.expanduser('~')
 KUBOS_DIR = os.path.join(HOME_DIR, '.kubos')
 KUBOS_SRC_DIR = os.path.join(KUBOS_DIR, 'kubos')
-KUBOS_EXAMPLE_DIR = os.path.join(KUBOS_DIR, 'example')
+KUBOS_RT_EXAMPLE_DIR = os.path.join(KUBOS_DIR, 'rt-example')
+KUBOS_LINUX_EXAMPLE_DIR = os.path.join(KUBOS_DIR, 'linux-example')
 
 KUBOS_GIT_DIR = os.path.join(KUBOS_SRC_DIR, '.git')
 KUBOS_VERSION_FILE = os.path.join(KUBOS_DIR, 'version.txt')

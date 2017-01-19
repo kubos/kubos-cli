@@ -38,7 +38,8 @@ def execCommand(args, following_args):
     logging.info('Checking for the most recent KubOS Source...')
     spinner = status_spinner.start_spinner()
     src_repo = clone_repo(KUBOS_SRC_DIR, KUBOS_SRC_URL)
-    clone_example_repo(KUBOS_EXAMPLE_DIR, KUBOS_EXAMPLE_URL)
+    clone_example_repo(KUBOS_RT_EXAMPLE_DIR, KUBOS_RT_EXAMPLE_URL)
+    clone_example_repo(KUBOS_LINUX_EXAMPLE_DIR, KUBOS_LINUX_EXAMPLE_URL)
     status_spinner.stop_spinner(spinner)
     set_version = vars(args)['set_version']
     if set_version:
@@ -47,9 +48,9 @@ def execCommand(args, following_args):
 
 def clone_example_repo(repo_dir, repo_url):
     '''
-    For the example repo (kubos-rt-example) we simply checkout
-    the latest version, rather than making the user specify a 
-    specific version of the example repo.
+    For the example repos (kubos-rt-example, kubos-linux-example) we 
+    simply checkout the latest version, rather than making the user 
+    specify a specific version of the example repo.
     '''
     repo = clone_repo(repo_dir, repo_url)
     tag_list = versions.get_tag_list(repo)
