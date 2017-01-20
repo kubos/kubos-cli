@@ -14,6 +14,7 @@
 # limitations under the License.
 
 import git
+import logging
 import sys
 import os
 
@@ -21,7 +22,6 @@ from pip.utils import get_installed_version
 from yotta.options import parser
 
 from kubos.utils import git_utils
-from kubos.utils.git_utils import *
 
 def addOptions(parser):
     parser.add_argument('-l', '--list', action='store_true', default=False, help='List all of the locally available KubOS source versions')
@@ -33,13 +33,13 @@ def execCommand(args, following_args):
     logging.info('Kubos Source version : %s' % kubos_version)
     if not kubos_version:
         if os.path.isdir(KUBOS_SRC_DIR):
-            repo, origin = get_repo(KUBOS_SRC_DIR)
-            version_list = get_tag_list(repo)
+            repo  = git_utils.get_repo(KUBOS_SRC_DIR)
+            version_list = git_utils.get_tag_list(repo)
             logging.info('There\'s not an active Kubos source version..')
             logging.info('The available versions are:')
-            print_tag_list(version_list)
+            git_utils.print_tag_list(version_list)
             logging.info('Please run kubos use <version> (with one of the above versions)' + \
                   'to checkout a version of the source before working with a project.')
         else:
             logging.info('There are not any local versions of the kubos source currently.')
-            logging.info('Please run `sudo kubos update` to pull the kubos source before running `kubos version` again')
+            logging.info('Please run `kubos update` to pull the kubos source before running `kubos version` again')

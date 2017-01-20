@@ -51,7 +51,7 @@ def show_target(default_target):
     else:
         logging.warning('No target currently set')
         logging.info('Use the "kubos target <target name>" command to set a target')
-        set_target('') #prints the available target list
+        print_target_list()
 
 
 def set_target(new_target):

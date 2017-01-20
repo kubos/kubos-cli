@@ -30,8 +30,8 @@ def addOptions(parser):
 def execCommand(args, following_args):
     if not os.path.isdir(KUBOS_SRC_DIR):
         logging.info('No versions are locally available. Please run `kubos update` to pull all of the available source versions.')
-        sys.exit(1)
-    repo, origin = git_utils.get_repo(KUBOS_SRC_DIR)
+        return 1
+    repo = git_utils.get_repo(KUBOS_SRC_DIR)
     tag_list = git_utils.get_tag_list(repo)
     latest   = git_utils.get_latest_tag(tag_list)
     logging.info('Available versions are:')

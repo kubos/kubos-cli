@@ -24,8 +24,7 @@ from kubos.utils.constants import *
 
 def get_repo(path):
     repo = git.Repo(path)
-    origin = repo.remotes.origin
-    return repo, origin
+    return repo
 
 
 def get_tag_list(repo):
@@ -131,7 +130,7 @@ def check_provided_version(requested_version, repo):
     set_active_kubos_version(requested_version, repo)
     if active_version:
         logging.info('Deactivating Kubos source version: %s' % active_version)
-    logging.info('\nActivating Kubos source version %s' % requested_version)
+    logging.info('Activating Kubos source version %s' % requested_version)
 
 
 

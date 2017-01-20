@@ -25,6 +25,6 @@ def addOptions(parser):
 def execCommand(args, following_args):
     args = vars(args)
     version = args['set_version'][0]
-    kubos_repo, origin = git_utils.get_repo(KUBOS_SRC_DIR)
+    kubos_repo = git_utils.get_repo(KUBOS_SRC_DIR)
     git_utils.check_provided_version(version, kubos_repo)
 
