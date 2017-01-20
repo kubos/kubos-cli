@@ -78,34 +78,3 @@ def get_target_list():
     return available_target_list
 
 
-'''
-logging.WARNING messages are disabled because we currently link all of
-the kubos source to each project. Modules that aren't needed print
-warning messages when they are linked.
-'''
-def link_kubos_modules():
-    logging.disable(logging.WARNING)
-    global_module_path = folders.globalInstallDirectory()
-    default_target = systemDefaultTarget()
-    for subdir in os.listdir(global_module_path):
-        module_json = os.path.join(global_module_path, subdir, 'module.json')
-        with open(module_json, 'r') as json_file:
-            data = json.load(json_file)
-            module_name = data['name']
-        link_args = argparse.Namespace(module_or_path=module_name,
-                                       config=None,
-                                       target=default_target)
-        link.execCommand(link_args, None)
-
-
-def link_kubos_targets():
-    logging.disable(logging.WARNING)
-    target_list = get_target_list()
-    for linked_target in target_list:
-        link_target_args = argparse.Namespace(target_or_path=linked_target,
-                                              config=None,
-                                              target=linked_target,
-                                              set_target=linked_target,
-                                              save_global=False,
-                                              no_install=False)
-        link_target.execCommand(link_target_args, '')
