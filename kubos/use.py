@@ -13,11 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
-from .utils import git_utils
-from .utils.constants import  KUBOS_SRC_DIR
-
 from yotta.options import parser
+
+from kubos.utils import git_utils
+from kubos.utils.constants import  KUBOS_SRC_DIR
 
 def addOptions(parser):
     parser.add_argument('set_version', nargs=1, help='Set a specific version of the KubOS modules to build your projects against.')

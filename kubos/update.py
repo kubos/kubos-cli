@@ -20,13 +20,12 @@ import sys
 import time
 import os
 
-
-from .utils import git_utils, \
-                   sdk_utils, \
-                   status_spinner
-from .utils.constants import *
-from kubos import versions
 from yotta.options import parser
+
+from kubos.utils import git_utils, \
+                        sdk_utils, \
+                        status_spinner
+from kubos.utils.constants import *
 
 def addOptions(parser):
     parser.add_argument('set_version', nargs='?', default=None, help='Specify a version of the kubos source to use.')

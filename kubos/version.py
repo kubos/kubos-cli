@@ -17,11 +17,11 @@ import git
 import sys
 import os
 
-from .utils import git_utils
-#Includes all of the sdk path variables
-from .utils.git_utils import *
 from pip.utils import get_installed_version
 from yotta.options import parser
+
+from kubos.utils import git_utils
+from kubos.utils.git_utils import *
 
 def addOptions(parser):
     parser.add_argument('-l', '--list', action='store_true', default=False, help='List all of the locally available KubOS source versions')

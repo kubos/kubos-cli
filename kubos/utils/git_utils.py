@@ -19,8 +19,8 @@ import packaging.version
 import os
 import sys
 
-from . import sdk_utils
-from .constants import *
+from kubos.utils import sdk_utils
+from kubos.utils.constants import *
 
 def get_repo(path):
     repo = git.Repo(path)

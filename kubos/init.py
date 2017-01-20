@@ -20,11 +20,12 @@ import os
 import shutil
 import sys
 
-from .utils.constants import KUBOS_RT_EXAMPLE_DIR, KUBOS_LINUX_EXAMPLE_DIR, KUBOS_SRC_DIR
-from .utils import sdk_utils
 from yotta import link, link_target
 from yotta.lib import folders
 from yotta.lib.detect import systemDefaultTarget
+
+from kubos.utils.constants import KUBOS_RT_EXAMPLE_DIR, KUBOS_LINUX_EXAMPLE_DIR, KUBOS_SRC_DIR
+from kubos.utils import sdk_utils
 
 def addOptions(parser):
     parser.add_argument('proj_name', nargs=1, help='specify the project name')

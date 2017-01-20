@@ -13,14 +13,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import git
+import logging
 import sys
 import os
 
-#Includes all of the sdk path variables
-from kubos.utils.git_utils import *
 from packaging import version
 from yotta.options import parser
+
+from kubos.utils import git_utils
+from kubos.utils.constants import *
 
 def addOptions(parser):
     pass
@@ -30,10 +31,10 @@ def execCommand(args, following_args):
     if not os.path.isdir(KUBOS_SRC_DIR):
         logging.info('No versions are locally available. Please run `kubos update` to pull all of the available source versions.')
         sys.exit(1)
-    repo, origin = get_repo(KUBOS_SRC_DIR)
-    tag_list = get_tag_list(repo)
-    latest   = get_latest_tag(tag_list)
+    repo, origin = git_utils.get_repo(KUBOS_SRC_DIR)
+    tag_list = git_utils.get_tag_list(repo)
+    latest   = git_utils.get_latest_tag(tag_list)
     logging.info('Available versions are:')
-    print_tag_list(tag_list)
+    git_utils.print_tag_list(tag_list)
     logging.info('The most recent release is: %s' % latest)
 

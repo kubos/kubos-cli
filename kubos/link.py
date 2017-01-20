@@ -13,12 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
-
-from kubos.utils.sdk_utils import *
 from yotta import link
 from yotta.options import parser
 
+from kubos.utils.sdk_utils import *
 
 def addOptions(parser):
     parser.add_argument('-a', '--all', action='store_true', default=False, help='Link modules to be used in other projects or modules.')
