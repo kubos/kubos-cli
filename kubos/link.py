@@ -19,7 +19,14 @@ from yotta.options import parser
 from kubos.utils.sdk_utils import *
 
 def addOptions(parser):
-    parser.add_argument('-a', '--all', action='store_true', default=False, help='Link modules to be used in other projects or modules.')
+    parser.add_argument('-a', '--all', action='store_true', default=False,
+            help='Link all modules (and targets) from the global cache into the local project.')
+    parser.add_argument('module_or_path', default=None, nargs='?',
+            help='Link a globally installed (or globally linked) module into '+
+                 'the current module\'s dependencies. If ommited, globally '+
+                 'link the current module.'
+    )
+
 
 
 def execCommand(args, following_args):
@@ -33,9 +40,10 @@ def execCommand(args, following_args):
     implementation.
     '''
 
-    args = vars(args)
-    if args['all']:
+    arg_dict = vars(args)
+    if arg_dict['all']:
         link_global_cache_to_project(os.getcwd())
     else:
+        #pass in the args argparse.Namespace object - not the dictionary from above
         link.execCommand(args, following_args)
 
