@@ -21,7 +21,7 @@ import yotta
 import yotta.link
 import yotta.link_target
 
-from .constants import *
+from kubos.utils.constants import *
 
 def get_sdk_attribute(attr):
     sdk_data = json.load(open(SDK_MODULE_JSON, 'r'))
