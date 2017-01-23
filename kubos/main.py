@@ -179,4 +179,4 @@ def main():
         logging.warning('interrupted')
         status = -1
 
-    sys.exit(status or 0)
+    return status or 0
