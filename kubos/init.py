@@ -20,25 +20,32 @@ import os
 import shutil
 import sys
 
-from kubos.utils.git_common import KUBOS_EXAMPLE_DIR
 from yotta import link, link_target
 from yotta.lib import folders
 from yotta.lib.detect import systemDefaultTarget
 
+from kubos.utils.constants import KUBOS_RT_EXAMPLE_DIR, KUBOS_LINUX_EXAMPLE_DIR, KUBOS_SRC_DIR
+from kubos.utils import sdk_utils
+
 def addOptions(parser):
     parser.add_argument('proj_name', nargs=1, help='specify the project name')
-
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('-l', '--linux', action='store_true', help='Initialize Kubos SDK project for KubOS Linux')
+    group.add_argument('-r', '--rt', action='store_true', default=True, help='Initialize Kubos SDK project for KubOS RT')
 
 def execCommand(args, following_args):
     proj_name = vars(args)['proj_name'][0] #vars returns a dict of args. proj_name is a list since nargs=1
-    print 'Initializing project: %s ...' % proj_name
+    logging.info('Initializing project: %s ...' % proj_name)
     proj_name_dir = os.path.join(os.getcwd(), proj_name)
 
     if os.path.isdir(proj_name_dir):
-        print >>sys.stderr, 'The project directory %s already exists. Not overwritting the current directory' % proj_name_dir
+        logging.warning('The project directory %s already exists. Not overwritting the current directory' % proj_name_dir)
         sys.exit(1)
 
-    shutil.copytree(KUBOS_EXAMPLE_DIR, proj_name_dir, ignore=shutil.ignore_patterns('.git'))
+    #Copy in the correct example directory based on the desired OS
+    example_dir = KUBOS_LINUX_EXAMPLE_DIR if args.linux else KUBOS_RT_EXAMPLE_DIR
+    shutil.copytree(example_dir, proj_name_dir, ignore=shutil.ignore_patterns('.git'))
+
     #change project name in module.json
     module_json = os.path.join(proj_name_dir, 'module.json')
     with open(module_json, 'r') as init_module_json:
@@ -52,9 +59,7 @@ def execCommand(args, following_args):
                                      separators=(',', ':'))
         final_module_json.write(str_module_data)
     os.chdir(proj_name_dir)
-    link_kubos_modules()
-    link_kubos_targets()
-
+    sdk_utils.link_global_cache_to_project(proj_name_dir)
 
 def get_target_list():
     '''
@@ -73,34 +78,3 @@ def get_target_list():
     return available_target_list
 
 
-'''
-logging.WARNING messages are disabled because we currently link all of
-the kubos source to each project. Modules that aren't needed print
-warning messages when they are linked.
-'''
-def link_kubos_modules():
-    logging.disable(logging.WARNING)
-    global_module_path = folders.globalInstallDirectory()
-    default_target = systemDefaultTarget()
-    for subdir in os.listdir(global_module_path):
-        module_json = os.path.join(global_module_path, subdir, 'module.json')
-        with open(module_json, 'r') as json_file:
-            data = json.load(json_file)
-            module_name = data['name']
-        link_args = argparse.Namespace(module_or_path=module_name,
-                                       config=None,
-                                       target=default_target)
-        link.execCommand(link_args, None)
-
-
-def link_kubos_targets():
-    logging.disable(logging.WARNING)
-    target_list = get_target_list()
-    for linked_target in target_list:
-        link_target_args = argparse.Namespace(target_or_path=linked_target,
-                                              config=None,
-                                              target=linked_target,
-                                              set_target=linked_target,
-                                              save_global=False,
-                                              no_install=False)
-        link_target.execCommand(link_target_args, '')

@@ -1,5 +1,5 @@
 # Kubos SDK
-# Copyright (C) 2016 Kubos Corporation
+# Copyright (C) 2017 Kubos Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,18 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import json
-import os
+from yotta.lib.component import *
 
-from pkg_resources import resource_filename
+class KubosComponent(Component):
+    def getLinkWholeArchive(self):
+        return self.description.get('linkWholeArchive', False)
 
-KUBOS_RESOURCE_DIR = os.path.join(resource_filename(__name__, ''), '..')
-SDK_MODULE_JSON = os.path.join(KUBOS_RESOURCE_DIR, 'module.json')
-GLOBAL_TARGET_PATH  = os.path.join('/', 'usr', 'local', 'lib', 'yotta_targets')
-
-def get_sdk_attribute(attr):
-    sdk_data = json.load(open(SDK_MODULE_JSON, 'r'))
-    if attr in sdk_data:
-        return sdk_data[attr]
-    else:
-        return None
+Component = KubosComponent

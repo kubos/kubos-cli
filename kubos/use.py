@@ -13,18 +13,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-'''
-This file deals with modifying all of the necessary functions in yotta/lib that
-are required for removing certain yotta functionality. Remove some of yotta's
-features, specficially the use of the yotta registry, allow it to be much more
-convenient to use in the Kubos-cli.
-'''
+from yotta.options import parser
 
-import yotta.lib.access
-from reimplemented_modules import access, cmakegen, component, detect
+from kubos.utils import git_utils
+from kubos.utils.constants import  KUBOS_SRC_DIR
 
-def exec_override():
-    yotta.lib.access = access
-    yotta.lib.detect = detect
-    yotta.lib.cmakegen = cmakegen
-    yotta.lib.component = component
+def addOptions(parser):
+    parser.add_argument('set_version', nargs=1, help='Set a specific version of the KubOS modules to build your projects against.')
+
+
+def execCommand(args, following_args):
+    args = vars(args)
+    version = args['set_version'][0]
+    kubos_repo = git_utils.get_repo(KUBOS_SRC_DIR)
+    git_utils.check_provided_version(version, kubos_repo)
+

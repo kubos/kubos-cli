@@ -13,14 +13,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import git
+import logging
 import sys
 import os
 
-#Includes all of the sdk path variables
-from kubos.utils.git_common import *
 from packaging import version
 from yotta.options import parser
+
+from kubos.utils import git_utils
+from kubos.utils.constants import *
 
 def addOptions(parser):
     pass
@@ -28,36 +29,12 @@ def addOptions(parser):
 
 def execCommand(args, following_args):
     if not os.path.isdir(KUBOS_SRC_DIR):
-        print 'No versions are locally available. Please run `sudo kubos update` to pull all of the available source versions.'
-        sys.exit(1)
-    repo, origin = get_repo(KUBOS_SRC_DIR)
-    tag_list = get_tag_list(repo)
-    latest   = get_latest_tag(tag_list)
-    print 'Available versions are:'
-    print_tag_list(tag_list)
-    print 'The most recent release is: %s' % latest
-
-
-def get_tag_list(repo):
-    tags = repo.tags
-    tag_list = []
-    for tag in tags:
-        tag_list.append(tag)
-    return tag_list
-
-
-def print_tag_list(tag_list):
-    active_version = get_active_kubos_version()
-    for tag in tag_list:
-        if tag.name == active_version:
-            sys.stdout.write('*')
-        print tag.name
-
-
-def get_latest_tag(tag_list):
-    latest_tag = git.TagReference("", "", check_path=False) #Set to a dummy tag that will be less than any other valid tag
-    for tag in tag_list:
-        if version.parse(tag.name) > version.parse(latest_tag.name):
-            latest_tag = tag
-    return latest_tag
+        logging.info('No versions are locally available. Please run `kubos update` to pull all of the available source versions.')
+        return 1
+    repo = git_utils.get_repo(KUBOS_SRC_DIR)
+    tag_list = git_utils.get_tag_list(repo)
+    latest   = git_utils.get_latest_tag(tag_list)
+    logging.info('Available versions are:')
+    git_utils.print_tag_list(tag_list)
+    logging.info('The most recent release is: %s' % latest)
 

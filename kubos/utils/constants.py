@@ -13,28 +13,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import git
 import os
+from pkg_resources import resource_filename
 
 KUBOS_SRC_URL = 'https://github.com/kubostech/kubos'
-KUBOS_EXAMPLE_URL = 'https://github.com/kubostech/kubos-rt-example'
+KUBOS_RT_EXAMPLE_URL = 'https://github.com/kubostech/kubos-rt-example'
+KUBOS_LINUX_EXAMPLE_URL = 'https://github.com/kubostech/kubos-linux-example'
+
 HOME_DIR = os.path.expanduser('~')
 KUBOS_DIR = os.path.join(HOME_DIR, '.kubos')
 KUBOS_SRC_DIR = os.path.join(KUBOS_DIR, 'kubos')
-KUBOS_EXAMPLE_DIR = os.path.join(KUBOS_DIR, 'example')
+KUBOS_RT_EXAMPLE_DIR = os.path.join(KUBOS_DIR, 'rt-example')
+KUBOS_LINUX_EXAMPLE_DIR = os.path.join(KUBOS_DIR, 'linux-example')
 
 KUBOS_GIT_DIR = os.path.join(KUBOS_SRC_DIR, '.git')
 KUBOS_VERSION_FILE = os.path.join(KUBOS_DIR, 'version.txt')
 
-def get_repo(path):
-    repo = git.Repo(path)
-    origin = repo.remotes.origin
-    return repo, origin
-
-
-def get_active_kubos_version():
-    if os.path.isfile(KUBOS_VERSION_FILE):
-        return open(KUBOS_VERSION_FILE).read()
-    else:
-        return None
+KUBOS_RESOURCE_DIR = os.path.join(resource_filename(__name__, ''), '..')
+SDK_MODULE_JSON = os.path.join(KUBOS_RESOURCE_DIR, 'module.json')
+GLOBAL_TARGET_PATH  = os.path.join('/', 'usr', 'local', 'lib', 'yotta_targets')
+GLOBAL_MODULE_PATH  = os.path.join('/', 'usr', 'local', 'lib', 'yotta_modules')
 
