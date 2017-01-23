@@ -13,28 +13,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import logging
-import sys
-import os
-
-from packaging import version
 from yotta.options import parser
 
 from kubos.utils import git_utils
-from kubos.utils.constants import *
+from kubos.utils.constants import  KUBOS_SRC_DIR
 
 def addOptions(parser):
-    pass
+    parser.add_argument('set_version', nargs=1, help='Set a specific version of the KubOS modules to build your projects against.')
 
 
 def execCommand(args, following_args):
-    if not os.path.isdir(KUBOS_SRC_DIR):
-        logging.info('No versions are locally available. Please run `kubos update` to pull all of the available source versions.')
-        return 1
-    repo = git_utils.get_repo(KUBOS_SRC_DIR)
-    tag_list = git_utils.get_tag_list(repo)
-    latest   = git_utils.get_latest_tag(tag_list)
-    logging.info('Available versions are:')
-    git_utils.print_tag_list(tag_list)
-    logging.info('The most recent release is: %s' % latest)
+    args = vars(args)
+    version = args['set_version'][0]
+    kubos_repo = git_utils.get_repo(KUBOS_SRC_DIR)
+    git_utils.check_provided_version(version, kubos_repo)
 
