@@ -16,7 +16,6 @@
 import argparse
 import kubos
 import os
-import shutil
 import tempfile
 import unittest
 

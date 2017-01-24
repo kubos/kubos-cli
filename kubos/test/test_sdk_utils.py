@@ -66,7 +66,7 @@ class KubosSdkUtilsTest(KubosTestCase):
                           'no_install': False,
                           'target_or_path': json_data['name'],
                           'config': None}
-        sdk_utils.run_link(self.module_json, self.dir_a) #link test target to the test module
+        sdk_utils.run_link(self.module_json, self.dir_a) #Link the module to an arbitrary location
         link.execCommand.assert_called()
         link_target.execCommand.assert_not_called()
         args, kwargs = link.execCommand.call_args[0]
@@ -82,7 +82,7 @@ class KubosSdkUtilsTest(KubosTestCase):
                           'no_install': False,
                           'target_or_path': None,
                           'config': None}
-        sdk_utils.run_link(self.target_json, None) #link test target to the test module
+        sdk_utils.run_link(self.target_json, None) #link test target to the "global cache" of targets
         link.execCommand.assert_not_called()
         link_target.execCommand.assert_called_once()
         args, kwargs = link_target.execCommand.call_args[0]
@@ -98,8 +98,8 @@ class KubosSdkUtilsTest(KubosTestCase):
         expected_args = [ self.module_json, self.target_json ]
         idx = 0
         for call in call_list:
-            args, kwargs = call
-            self.assertEqual(expected_args[idx], args[0])
+            args, kwargs = call[0]
+            self.assertEqual(expected_args[idx], args)
             idx = idx + 1
 
 
