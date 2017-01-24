@@ -13,18 +13,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import argparse
 import json
 import kubos
 import mock
 import os
 import sys
 import unittest
-import yotta.build
 
 from yotta.test.cli.util import  Test_Trivial_Lib #
 from yotta.test.cli.test_target import Test_Module_JSON
-
+from yotta import link, link_target
 
 from kubos.utils import sdk_utils
 from kubos.test.utils import KubosTestCase
@@ -53,17 +51,49 @@ class KubosSdkUtilsTest(KubosTestCase):
         os.makedirs(self.dir_c)
 
         with open(self.module_json, 'w') as module_file:
-            module_file.write(json.dumps(Test_Module_JSON))
+            module_file.write(Test_Module_JSON)
         with open(self.target_json, 'w') as target_file:
-            target_file.write(json.dumps(Test_Module_JSON))
+            target_file.write(Test_Module_JSON)
 
 
+    @mock.patch('yotta.link.execCommand', mock.MagicMock())
+    @mock.patch('yotta.link_target.execCommand', mock.MagicMock())
+    def test_link_target_to_proj(self):
+        json_data = json.loads(Test_Module_JSON)
+        expected_args = { 'save_global': True,
+                          'module_or_path': json_data['name'],
+                          'target': 'x86-osx-native,',
+                          'no_install': False,
+                          'target_or_path': json_data['name'],
+                          'config': None}
+        sdk_utils.run_link(self.module_json, self.dir_a) #link test target to the test module
+        link.execCommand.assert_called()
+        link_target.execCommand.assert_not_called()
+        args, kwargs = link.execCommand.call_args[0]
+        self.assertEqual(expected_args, vars(args))
+
+
+    @mock.patch('yotta.link.execCommand', mock.MagicMock())
+    @mock.patch('yotta.link_target.execCommand', mock.MagicMock())
+    def test_link_local_to_global_cache(self):
+        expected_args = { 'save_global': True,
+                          'module_or_path': None,
+                          'target': 'x86-osx-native,',
+                          'no_install': False,
+                          'target_or_path': None,
+                          'config': None}
+        sdk_utils.run_link(self.target_json, None) #link test target to the test module
+        link.execCommand.assert_not_called()
+        link_target.execCommand.assert_called_once()
+        args, kwargs = link_target.execCommand.call_args[0]
+        self.assertEqual(expected_args, vars(args))
+
+
+    @mock.patch('kubos.utils.sdk_utils.run_link', mock.MagicMock())
     def test_link_entities_discovery(self):
         sys.argv.append('link')
-        sdk_utils.run_link = mock.MagicMock()
         sdk_utils.link_entities(self.base_dir, None)
         self.assertEqual(sdk_utils.run_link.call_count, 2)
-        # import pdb;pdb.set_trace()
         call_list = sdk_utils.run_link.call_args_list
         expected_args = [ self.module_json, self.target_json ]
         idx = 0
