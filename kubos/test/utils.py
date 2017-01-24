@@ -23,6 +23,7 @@ import unittest
 
 class KubosTestCase(unittest.TestCase):
     test_arg = None #Additional command line argument needed by any specific test cases
+    test_command = None #Not all test cases define a 'test_command'
 
     def setUp(self):
         '''
