@@ -17,6 +17,7 @@ import argparse
 import json
 import logging
 import os
+import shutil
 import yotta
 import yotta.link
 import yotta.link_target
@@ -103,6 +104,11 @@ def run_link(src, dst):
                                    no_install=False)
     link_module.execCommand(link_args, '')
     os.chdir(start_dir)
+
+
+def purge_global_cache():
+    shutil.rmtree(GLOBAL_MODULE_PATH)
+    shutil.rmtree(GLOBAL_TARGET_PATH)
 
 
 def link_global_cache_to_project(project):
