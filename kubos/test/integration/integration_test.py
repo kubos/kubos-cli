@@ -2,6 +2,8 @@
 
 import json
 import kubos
+import logging
+import mock
 import os
 import sys
 import unittest
@@ -16,10 +18,11 @@ class CLIIntegrationTest(KubosTestCase):
         super(CLIIntegrationTest, self).setUp()
         self.proj_name = 'project-test'
         self.proj_dir = os.path.join(self.base_dir, self.proj_name)
-        self.target_list = ['msp430f5529-gcc']
+        self.target_list = None #Defined at test runtime
         self.latest_tag = 'v0.0.1' #TODO: make dynamic
         self.first_arg = sys.argv[0]
         sys.argv = [self.first_arg] #clear any excess command line arguements
+        logging.error = mock.MagicMock()
 
 
         #The tests are run in alphabetical order by default (hence the 1,2,3,etc..)
@@ -61,14 +64,18 @@ class CLIIntegrationTest(KubosTestCase):
 
 
     def run_command(self, subcommand_name, *args):
-        arg_list = [subcommand_name] if not args else [subcommand_name] + list(args)
+        arg_list = [subcommand_name] + list(args)
         #store the current command line arguments so we can restore them later
         starting_args = sys.argv
         #set up new command line args
         sys.argv = sys.argv + arg_list
         print '\nRunning command %s %s' % (subcommand_name, ' '.join(args))
+
+        #run the command
         return_code = kubos.main()
         self.assertEqual(return_code, 0)
+        logging.error.assert_not_called() #secondary safeguard for detecting runtime errors
+
         #reset the command line arguments that we added during this command run
         sys.argv = starting_args
 
