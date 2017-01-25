@@ -22,6 +22,7 @@ from pip.utils import get_installed_version
 from yotta.options import parser
 
 from kubos.utils import git_utils
+from kubos.utils.constants import KUBOS_SRC_DIR
 
 def addOptions(parser):
     parser.add_argument('-l', '--list', action='store_true', default=False, help='List all of the locally available KubOS source versions')

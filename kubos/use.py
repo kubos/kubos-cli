@@ -15,7 +15,7 @@
 
 from yotta.options import parser
 
-from kubos.utils import git_utils
+from kubos.utils import git_utils, sdk_utils
 from kubos.utils.constants import  KUBOS_SRC_DIR
 
 def addOptions(parser):
@@ -27,4 +27,5 @@ def execCommand(args, following_args):
     version = args['set_version'][0]
     kubos_repo = git_utils.get_repo(KUBOS_SRC_DIR)
     git_utils.check_provided_version(version, kubos_repo)
-
+    sdk_utils.purge_global_cache()
+    sdk_utils.link_to_global_cache(KUBOS_SRC_DIR)
