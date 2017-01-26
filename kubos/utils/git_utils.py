@@ -16,6 +16,7 @@
 import git
 import logging
 import packaging.version
+import re
 import os
 import sys
 
@@ -58,25 +59,18 @@ def fetch_tags(repo):
     origin.fetch()
 
 
-def checkout_branch_update_version(branch, repo):
-    logging.info("Checking out branch '%s'" % branch)
-    logging.warning("Branch '%s' of the Kubos Source has not been marked as stable yet. Proceed with caution." % branch)
+def checkout_and_update_version(ref, repo):
+    tag_expr = re.compile('v+\d\.+\d\.+\d\.*') #Tags follow the vX.X.X convention
+    is_tag = tag_expr.match(ref)
+    logging.info("Checking out '%s'" % ref)
+    if not is_tag:
+        logging.warning('Kubos branches are not guaranteed to be stable. Proceed with caution.')
     try:
-        repo.git.checkout(branch)
+        repo.git.checkout(ref)
         if repo.git_dir == os.path.join(KUBOS_SRC_DIR, '.git'): #only set the version file for kubos source checkouts, not for example checkouts
-            update_version_file(branch)
+            update_version_file(ref)
     except:
-        logging.error('There was an error checking out branch "%s"' % branch)
-        logging.debug('The error details are: %s' %  sys.exc_info()[0])
-
-
-def checkout_tag_update_version(tag, repo):
-    try:
-        repo.git.checkout(tag.name)
-        if repo.git_dir == os.path.join(KUBOS_SRC_DIR, '.git'): #only set the version file for kubos source checkouts, not for example checkouts
-            update_version_file(tag.name)
-    except:
-        logging.error('There was an error checking out the tag "%s"' % tag.name)
+        logging.error('There was an error checking out branch "%s"' % ref)
         logging.debug('The error details are: %s' %  sys.exc_info()[0])
 
 
@@ -127,11 +121,11 @@ def set_active_kubos_version(set_tag, repo):
     found = False
     for tag in tag_list:
         if tag.name == set_tag:
-            checkout_tag_update_version(tag, repo)
+            checkout_and_update_version(tag.name, repo)
             found = True
             break
     if not found:
-        logging.error('The requested version "%s" is not an avaialble version.' % set_tag)
+        logging.error('The requested version "%s" is not an available version.' % set_tag)
         logging.info('Available versions are: ')
         print_tag_list(tag_list)
         sys.exit(1)
