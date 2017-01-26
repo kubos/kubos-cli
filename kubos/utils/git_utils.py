@@ -55,18 +55,34 @@ def get_latest_tag(tag_list):
 def fetch_tags(repo):
     origin = repo.remotes.origin
     logging.info('Checking for newer releases...') #Tags mark new KubOS releases
-    origin.fetch(tags=True)
+    origin.fetch()
 
 
-def checkout_and_update_version_file(tag, repo):
+def checkout_branch_update_version(branch, repo):
+    logging.info("Checking out branch '%s'" % branch)
+    logging.warning("Branch '%s' of the Kubos Source has not been marked as stable yet. Proceed with caution." % branch)
+    try:
+        repo.git.checkout(branch)
+        if repo.git_dir == os.path.join(KUBOS_SRC_DIR, '.git'): #only set the version file for kubos source checkouts, not for example checkouts
+            update_version_file(branch)
+    except:
+        logging.error('There was an error checking out branch "%s"' % branch)
+        logging.error('The error details are: %s' %  sys.exc_info()[0])
+
+
+def checkout_tag_update_version(tag, repo):
     try:
         repo.git.checkout(tag.name)
         if repo.git_dir == os.path.join(KUBOS_SRC_DIR, '.git'): #only set the version file for kubos source checkouts, not for example checkouts
-            with open(KUBOS_VERSION_FILE, 'w') as version_file:
-                version_file.write(tag.name)
+            update_version_file(tag.name)
     except:
         logging.error('There was an error checking out the tag "%s"' % tag.name)
         logging.debug('The error details are: %s' %  sys.exc_info()[0])
+
+
+def update_version_file(version):
+    with open(KUBOS_VERSION_FILE, 'w') as version_file:
+        version_file.write(version)
 
 
 def clone_example_repo(repo_dir, repo_url):
@@ -78,7 +94,7 @@ def clone_example_repo(repo_dir, repo_url):
     repo = clone_repo(repo_dir, repo_url)
     tag_list   = get_tag_list(repo)
     latest_tag = get_latest_tag(tag_list)
-    checkout_and_update_version_file(latest_tag, repo)
+    checkout_tag_update_version(latest_tag, repo)
 
 
 def clone_repo(repo_dir, repo_url):
@@ -111,7 +127,7 @@ def set_active_kubos_version(set_tag, repo):
     found = False
     for tag in tag_list:
         if tag.name == set_tag:
-            checkout_and_update_version_file(tag, repo)
+            checkout_tag_update_version(tag, repo)
             found = True
             break
     if not found:
@@ -131,7 +147,4 @@ def check_provided_version(requested_version, repo):
     if active_version:
         logging.info('Deactivating Kubos source version: %s' % active_version)
     logging.info('Activating Kubos source version %s' % requested_version)
-
-
-
 

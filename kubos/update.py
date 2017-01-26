@@ -43,5 +43,5 @@ def execCommand(args, following_args):
     status_spinner.stop_spinner(spinner)
     set_version = vars(args)['set_version']
     if set_version:
-        check_provided_version(set_version, src_repo)
+        git_utils.check_provided_version(set_version, src_repo)
 
