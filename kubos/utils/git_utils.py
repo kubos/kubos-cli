@@ -67,7 +67,7 @@ def checkout_branch_update_version(branch, repo):
             update_version_file(branch)
     except:
         logging.error('There was an error checking out branch "%s"' % branch)
-        logging.error('The error details are: %s' %  sys.exc_info()[0])
+        logging.debug('The error details are: %s' %  sys.exc_info()[0])
 
 
 def checkout_tag_update_version(tag, repo):
