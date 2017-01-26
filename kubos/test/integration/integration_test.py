@@ -19,9 +19,8 @@ class CLIIntegrationTest(KubosTestCase):
         self.proj_name = 'project-test'
         self.proj_dir = os.path.join(self.base_dir, self.proj_name)
         self.target_list = None #Defined at test runtime
-        self.latest_tag = 'v0.0.1' #TODO: make dynamic
         self.first_arg = sys.argv[0]
-        sys.argv = [self.first_arg] #clear any excess command line arguements
+        sys.argv = [self.first_arg] #clear any excess command line arguhements
         logging.error = mock.MagicMock()
 
 
@@ -32,7 +31,7 @@ class CLIIntegrationTest(KubosTestCase):
         os.chdir(self.base_dir)
         self.run_command('version')
         self.run_command('versions')
-        # self.run_command('use', self.latest_tag)
+        self.run_command('use', '--branch', 'master')
         self.run_command('version')
         self.run_command('versions')
 
@@ -45,6 +44,7 @@ class CLIIntegrationTest(KubosTestCase):
         for target in rt_list:
             self.run_command('target', target)
             self.run_command('target') #print the target
+            self.run_command('list')
             self.run_command('build')
             self.run_command('clean')
         os.chdir(self.base_dir)
@@ -58,6 +58,7 @@ class CLIIntegrationTest(KubosTestCase):
         for target in linux_list:
             self.run_command('target', target)
             self.run_command('target')
+            self.run_command('list')
             self.run_command('build')
             self.run_command('clean')
         os.chdir(self.base_dir)
