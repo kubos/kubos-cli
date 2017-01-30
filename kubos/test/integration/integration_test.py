@@ -26,7 +26,7 @@ class CLIIntegrationTest(KubosTestCase):
 
         #The tests are run in alphabetical order by default (hence the 1,2,3,etc..)
         #TODO: Get a better way of running the test in order while still being readable
-    def test_1_update_things(self):
+    def test_1_update_source_check_versions(self):
         self.run_command('update')
         os.chdir(self.base_dir)
         self.run_command('version')
@@ -40,7 +40,7 @@ class CLIIntegrationTest(KubosTestCase):
         self.run_command('init', self.proj_name)
         os.chdir(self.proj_dir)
         self.run_command('target')
-        rt_list, linux_list = self.get_eligible_rt_target_list()
+        rt_list, linux_list = self.get_target_lists()
         for target in rt_list:
             self.run_command('target', target)
             self.run_command('target') #print the target
@@ -54,7 +54,7 @@ class CLIIntegrationTest(KubosTestCase):
         self.run_command('init', '-l', self.proj_name)
         os.chdir(self.proj_dir)
         self.run_command('target')
-        rt_list, linux_list = self.get_eligible_rt_target_list()
+        rt_list, linux_list = self.get_target_lists()
         for target in linux_list:
             self.run_command('target', target)
             self.run_command('target')
@@ -81,13 +81,14 @@ class CLIIntegrationTest(KubosTestCase):
         sys.argv = starting_args
 
 
-    def get_eligible_rt_target_list(self):
+    def get_target_lists(self):
         '''
+        Splits rt and linux targets.
         Returns the list of kubos_rt targets and the list of linux targets.
         '''
         linux_list = []
         rt_list = []
-        target_list = self.get_eligible_target_list()
+        target_list = self.get_all_eligible_targets()
 
         #TODO: Get a better way of determining linux targets
         for target in target_list:
@@ -98,7 +99,7 @@ class CLIIntegrationTest(KubosTestCase):
         return rt_list, linux_list
 
 
-    def get_eligible_target_list(self):
+    def get_all_eligible_targets(self):
         '''
         Returns the list of targets which do not have dependent targets.
         Example target hierarchy:
@@ -119,7 +120,7 @@ class CLIIntegrationTest(KubosTestCase):
             if name_key in json_data:
                 complete_set.add(json_data['name'])
             if inherit_key in json_data:
-                #The target this current target depends on is an in eligible target
+                #The target this current target depends on is an ineligible target
                 target_dependency = json_data[inherit_key].keys()
                 ineligible_set.add(*target_dependency)
         return complete_set - ineligible_set
