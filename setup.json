@@ -3,7 +3,7 @@
         "appdirs",
         "argcomplete",
         "cryptography",
-        "jwt",
+        "jwt==0.3.2",
         "gitpython",
         "ndg-httpsclient",
         "packaging",
