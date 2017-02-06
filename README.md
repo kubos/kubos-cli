@@ -1,4 +1,5 @@
 # Kubos CLI
+[![CircleCI](https://circleci.com/gh/kubostech/kubos-cli.svg?style=svg)](https://circleci.com/gh/kubostech/kubos-cli)
 
 ## NOTE: This module is primarily meant to run inside of a provisioned Vagrant Box.
 ## ALMOST ALL USERS WILL WANT TO USE THIS IN THE VAGRANT CONTEXT SEE [THE KUBOS DOCS](http://docs.kubos.co) FOR THE VAGRANT INSTALLATION DOCS

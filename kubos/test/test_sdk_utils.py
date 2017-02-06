@@ -62,7 +62,7 @@ class KubosSdkUtilsTest(KubosTestCase):
         json_data = json.loads(Test_Module_JSON)
         expected_args = { 'save_global': True,
                           'module_or_path': json_data['name'],
-                          'target': 'x86-osx-native,',
+                          'target': 'stm32f407-disco-gcc,*',
                           'no_install': False,
                           'target_or_path': json_data['name'],
                           'config': None}
@@ -78,7 +78,7 @@ class KubosSdkUtilsTest(KubosTestCase):
     def test_link_local_to_global_cache(self):
         expected_args = { 'save_global': True,
                           'module_or_path': None,
-                          'target': 'x86-osx-native,',
+                          'target': 'stm32f407-disco-gcc,*',
                           'no_install': False,
                           'target_or_path': None,
                           'config': None}
