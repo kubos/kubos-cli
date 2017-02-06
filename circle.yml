@@ -1,0 +1,10 @@
+machine:
+
+    python:
+        version:
+            2.7.12
+
+dependencies:
+    pre:
+        - pip install --upgrade setuptools
+        - pip install --upgrade virtualenv
