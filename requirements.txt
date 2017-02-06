@@ -1,4 +1,12 @@
+appdirs
+argcomplete
+cryptography
 jwt==0.3.2
+gitpython
+mock
 ndg-httpsclient
 packaging
+pager
+requests
+yotta
 pysocks
