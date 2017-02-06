@@ -49,6 +49,12 @@ class KubosInitTest(utils.KubosTestCase):
             with open(rt_module_json, 'w') as mod_json:
                 mod_json.write(Test_Module_JSON)
 
+        #Set up a dummy global module and target cache
+        if not os.path.isdir(constants.GLOBAL_TARGET_PATH):
+            os.makedirs(constants.GLOBAL_TARGET_PATH)
+        if not os.path.isdir(constants.GLOBAL_MODULE_PATH):
+            os.makedirs(constants.GLOBAL_MODULE_PATH)
+
     def test_creates_proj_dir(self):
         self.proj_dir = os.path.join(self.base_dir, self.proj_name)
         kubos.init.execCommand(self.args, None)
