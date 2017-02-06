@@ -8,3 +8,7 @@ dependencies:
     pre:
         - pip install --upgrade setuptools
         - pip install --upgrade virtualenv
+        - sudo mkdir /usr/local/lib/yotta_modules
+        - sudo mkdir /usr/local/lib/yotta_targets
+        - sudo chmod 777 /usr/local/lib/yotta_modules
+        - sudo chmod 777 /usr/local/lib/yotta_modules
