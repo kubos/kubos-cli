@@ -18,7 +18,7 @@ class SDKCommand(object):
             callback=self.onParserAdded)
 
     def execCommand(self, args, following_args):
-        self.module.execCommand(args, following_args)
+        return self.module.execCommand(args, following_args)
 
     def onParserAdded(self, parser):
         self.module = importlib.import_module('.' + self.module_name, self.base_module)
