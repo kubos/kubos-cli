@@ -29,6 +29,7 @@ from kubos.utils.constants import *
 
 def addOptions(parser):
     parser.add_argument('set_version', nargs='?', default=None, help='Specify a version of the kubos source to use.')
+    parser.add_argument('-l', '--latest', action='store_true', default=False, help='Default to the most recent release of KubOS modules')
 
 
 def execCommand(args, following_args):
@@ -41,7 +42,11 @@ def execCommand(args, following_args):
     git_utils.clone_example_repo(KUBOS_RT_EXAMPLE_DIR, KUBOS_RT_EXAMPLE_URL)
     git_utils.clone_example_repo(KUBOS_LINUX_EXAMPLE_DIR, KUBOS_LINUX_EXAMPLE_URL)
     status_spinner.stop_spinner(spinner)
-    set_version = vars(args)['set_version']
+    set_version = args.set_version
     if set_version:
+        logging.info('Setting provided release: %s' % set_version)
         git_utils.check_provided_version(set_version, src_repo)
-
+    if args.latest:
+        latest_tag = git_utils.get_latest_tag(git_utils.get_tag_list(src_repo))
+        logging.info('Setting latest release: %s' % latest_tag)
+        git_utils.check_provided_version(latest_tag.name, src_repo)
