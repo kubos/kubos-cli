@@ -60,7 +60,7 @@ def fetch_tags(repo):
 
 
 def checkout_and_update_version(ref, repo):
-    tag_expr = re.compile('v+\d\.+\d\.+\d\.*') #Tags follow the vX.X.X convention
+    tag_expr = re.compile('v?\d+\.\d+\.\d+\.*') #Tags follow the v?X.X.X convention
     is_tag = tag_expr.match(ref)
     logging.info("Checking out '%s'" % ref)
     if not is_tag:
