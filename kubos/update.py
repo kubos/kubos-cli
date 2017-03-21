@@ -29,7 +29,7 @@ from kubos.utils.constants import *
 
 def addOptions(parser):
     parser.add_argument('set_version', nargs='?', default=None, help='Specify a version of the kubos source to use.')
-    parser.add_argument('-l', '--latest', action='store_true', default=False, help='Default to the most recent release of KubOS modules')
+    parser.add_argument('-l', '--latest', action='store_true', default=False, help='Default to the most recent release of Kubos modules')
 
 
 def execCommand(args, following_args):
