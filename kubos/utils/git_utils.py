@@ -32,23 +32,45 @@ def get_tag_list(repo):
     tags = repo.tags
     tag_list = []
     for tag in tags:
-        tag_list.append(tag)
+        tag_list.append(tag.name)
     return tag_list
 
 
-def print_tag_list(tag_list):
-    active_version = get_active_kubos_version()
+def filter_minor_tags(display_num, tag_list):
+    '''
+    With every merge to Master of the Kubos repo theres a new tag/release generated.
+    This filters only the most recent display_num number of release tags.
+    '''
+    filtered_tags = []
+    major_version = re.compile('v?\d+\.\d+\.\d+')
+    minor_version = re.compile('v?\d+\.\d+\.\d+\.\d+')
     for tag in tag_list:
-        tag_name = tag.name #tag.name is immutable...
-        if tag.name == active_version:
-            tag_name = tag.name + ' *'
-        logging.info(tag_name)
+        if minor_version.match(tag):
+            if display_num <= 0:
+                continue
+            filtered_tags.append(tag)
+            display_num = display_num - 1
+        elif major_version.match(tag):
+            filtered_tags.append(tag)
+    return filtered_tags
+
+
+def print_tag_list(tag_list, filter=True):
+    active_version = get_active_kubos_version()
+
+    if filter:  #filter the minor versions
+        tag_list = filter_minor_tags(SHOW_NUMBER_MINOR_VERSIONS, tag_list)
+
+    for tag in tag_list:
+        if tag == active_version:
+            tag = tag + ' *'
+        logging.info(tag)
 
 
 def get_latest_tag(tag_list):
-    latest_tag = git.TagReference("", "", check_path=False) #Set to a dummy tag that will be less than any other valid tag
+    latest_tag = '0.0.0' #Set to a dummy tag that will be less than any other valid tag
     for tag in tag_list:
-        if packaging.version.parse(tag.name) > packaging.version.parse(latest_tag.name):
+        if packaging.version.parse(tag) > packaging.version.parse(latest_tag):
             latest_tag = tag
     return latest_tag
 
@@ -81,8 +103,8 @@ def update_version_file(version):
 
 def clone_example_repo(repo_dir, repo_url):
     '''
-    For the example repos (kubos-rt-example, kubos-linux-example) we 
-    simply checkout the latest version, rather than making the user 
+    For the example repos (kubos-rt-example, kubos-linux-example) we
+    simply checkout the latest version, rather than making the user
     specify a specific version of the example repo.
     '''
     repo = clone_repo(repo_dir, repo_url)
