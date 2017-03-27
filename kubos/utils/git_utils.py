@@ -32,7 +32,7 @@ def get_tag_list(repo):
     tags = repo.tags
     tag_list = []
     for tag in tags:
-        tag_list.append(tag.name)
+        tag_list.insert(0, tag.name)
     return tag_list
 
 
