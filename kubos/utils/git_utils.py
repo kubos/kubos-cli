@@ -110,7 +110,7 @@ def clone_example_repo(repo_dir, repo_url):
     repo = clone_repo(repo_dir, repo_url)
     tag_list   = get_tag_list(repo)
     latest_tag = get_latest_tag(tag_list)
-    checkout_and_update_version(latest_tag.name, repo)
+    checkout_and_update_version(latest_tag, repo)
 
 
 def clone_repo(repo_dir, repo_url):
@@ -142,8 +142,8 @@ def set_active_kubos_version(set_tag, repo):
     tag_list = get_tag_list(repo)
     found = False
     for tag in tag_list:
-        if tag.name == set_tag:
-            checkout_and_update_version(tag.name, repo)
+        if tag == set_tag:
+            checkout_and_update_version(tag, repo)
             found = True
             break
     if not found:
