@@ -12,3 +12,9 @@ dependencies:
         - sudo mkdir /usr/local/lib/yotta_targets
         - sudo chmod 777 /usr/local/lib/yotta_modules
         - sudo chmod 777 /usr/local/lib/yotta_modules
+
+
+test:
+    override:
+        - python ./kubos/test/integration/integration_test.py
+
