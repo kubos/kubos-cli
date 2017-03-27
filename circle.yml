@@ -16,5 +16,5 @@ dependencies:
 
 test:
     override:
-        - python ./kubos/test/integration/integration_test.py
+        - sudo python ./kubos/test/integration/integration_test.py
 
