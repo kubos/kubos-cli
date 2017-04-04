@@ -27,16 +27,22 @@ class CLIIntegrationTest(KubosTestCase):
         #The tests are run in alphabetical order by default (hence the 1,2,3,etc..)
         #TODO: Get a better way of running the test in order while still being readable
     def test_1_update_source_check_versions(self):
+        #testing displaying versions, various methods for chaning versions and updating the kubos source
+        self.run_command('version')
         self.run_command('update')
-        os.chdir(self.base_dir)
+        self.run_command('update', '--latest')
         self.run_command('version')
         self.run_command('versions')
         self.run_command('use', '--branch', 'master')
         self.run_command('version')
         self.run_command('versions')
+        os.chdir(self.base_dir)
 
 
     def test_2_rt_example(self):
+        #test setting and verifying that our targets can all be set
+        #Projects are not built because this is only testing the CLI's ability to
+        #set/show and verify targets
         self.run_command('init', self.proj_name)
         os.chdir(self.proj_dir)
         self.run_command('target')
@@ -45,12 +51,11 @@ class CLIIntegrationTest(KubosTestCase):
             self.run_command('target', target)
             self.run_command('target') #print the target
             self.run_command('list')
-            self.run_command('build')
-            self.run_command('clean')
         os.chdir(self.base_dir)
 
 
     def test_3_linux_example(self):
+        #Same test as the rt-example test but for the linux targets/project
         self.run_command('init', '-l', self.proj_name)
         os.chdir(self.proj_dir)
         self.run_command('target')
@@ -59,8 +64,6 @@ class CLIIntegrationTest(KubosTestCase):
             self.run_command('target', target)
             self.run_command('target')
             self.run_command('list')
-            self.run_command('build')
-            self.run_command('clean')
         os.chdir(self.base_dir)
 
 
