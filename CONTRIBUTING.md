@@ -71,6 +71,13 @@ $ pip install -e .
 
 pip install -e . means install the kubos-cli package in editable mode (or developer mode). This allows you to edit code directly in ~/Projects/kubos-cli without reinstalling the package.
 
+To run tests, requirements are placed in a separate file named requirements.txt. To install them, do:
+
+```
+cd ~/Projects/kubos-cli
+pip install -r requirements.txt
+```
+
 ### Run Tests
 
 ```
