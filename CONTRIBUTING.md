@@ -17,70 +17,55 @@ Start by clicking the Fork button on our Github repo. Then, open a command line 
 the following.
 
 ```
-$ cd ~/Projects
-$ git clone git@github.com:{YOUR_USERNAME}/kubos-cli.git
+cd ~/Projects
+git clone git@github.com:{YOUR_USERNAME}/kubos-cli.git
 ```
 
 ### Creating a virtual environment
 
-We recommend creating a virtual environment to keep all your dependencies separate from your OS. Start by installing [pyenv](https://github.com/pyenv/pyenv) and [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv).
+Kubos uses Vagrant to create environments that also has the added benifit of a virtual dev environment. We will be using Vagrant in place of installing a Python Virtual Environment.
 
-Then run
+#### Set up KubOS Sdk
+Follow these instructions for setting up [Vagrant for Kubos](http://docs.kubos.co/0.2.2/md_docs_sdk-installing.html)
 
+#### Linking your volume
+To develop locally on your machine and have the changes take affect, link your cloned kubos-cli folder to Vagrant.
+
+Change this line:
 ```
-pyenv install 3.6.0
+config.vm.synced_folder "../data", "/vagrant_data"
 ```
-
-Then create a virtualenv
-
+To this
 ```
-pyenv virtualenv 3.6.0 kubos-cli
-```
-
-Then activate the environment
-
-```
-pyenv activate kubos-cli
-```
-
-To exit the venv run
-
-```
-pyenv deactivate
+config.vm.synced_folder "~/Projects/kubos-cli, "/home/vagrant/kubos-cli"
 ```
 
 ### Installing Dependent Packages
-The dependent packages should be installed on a virtualenv, so make sure you activate your virtualenv:
-
+Next, log into your Vagrant environment and install Kubos CLI for development
 ```
-pyenv activate kubos-cli
+vagrant up
 ```
-
 It is also recommended to use the latest version of pip. You can upgrade it with:
-
 ```
 pip install -U pip
 ```
 
 Then install the dependent libraries
-
 ```
-$ cd ~/Projects/kubos-cli
-$ pip install -e .
+cd /home/vagrant/kubos-cli
+pip install -e .
 ```
-
-pip install -e . means install the kubos-cli package in editable mode (or developer mode). This allows you to edit code directly in ~/Projects/kubos-cli without reinstalling the package.
+`pip install -e .` means install the kubos-cli package in editable mode (or developer mode). This allows you to edit code directly in ~/Projects/kubos-cli without reinstalling the package.
 
 To run tests, requirements are placed in a separate file named requirements.txt. To install them, do:
-
 ```
-cd ~/Projects/kubos-cli
+cd /home/vagrant/kubos-cli
 pip install -r requirements.txt
 ```
-
 ### Run Tests
 
 ```
+cd /home/vagrant/kubos-cli
 python ./kubos/test/integration/integration_test.py
 ```
 
