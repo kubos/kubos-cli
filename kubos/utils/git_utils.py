@@ -38,20 +38,24 @@ def get_tag_list(repo):
 
 def filter_cd_generated_tags(display_num, tag_list):
     '''
-    With every merge to Master of the Kubos repo theres the CD config generates
-    and releases a new tag/release..
-    This filters only the most recent display_num number of release tags.
+    cd_generated_versions are the auto generated releases from the CD configuration. With
+    every merge to master of the kubos repo one of these release tags is generated.
+
+    ga_release_versions are manually created, more significant (general availability) releases that should have higher levels
+    of stability than cd_generated_version releases will.
+
+    This function filters only the most recent display_num number of cd_generated_versions from tag_list.
     '''
     filtered_tags = []
-    major_version = re.compile('v?\d+\.\d+\.\d+')
-    minor_version = re.compile('v?\d+\.\d+\.\d+\.\d+')
+    ga_release_version   = re.compile('v?\d+\.\d+\.\d+')
+    cd_generated_version = re.compile('v?\d+\.\d+\.\d+\.\d+')
     for tag in tag_list:
-        if minor_version.match(tag):
+        if cd_generated_version.match(tag):
             if display_num <= 0:
                 continue
             filtered_tags.append(tag)
             display_num = display_num - 1
-        elif major_version.match(tag):
+        elif ga_release_version.match(tag):
             filtered_tags.append(tag)
     return filtered_tags
 

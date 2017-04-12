@@ -24,7 +24,7 @@ from kubos.utils import git_utils
 from kubos.utils.constants import *
 
 def addOptions(parser):
-    parser.add_argument('-a', '--all-versions', action='store_false', default=True, help='Show all available minor versions')
+    parser.add_argument('-a', '--all-versions', dest='filter', action='store_false', default=True, help='Show all available versions')
 
 
 def execCommand(args, following_args):
@@ -35,6 +35,6 @@ def execCommand(args, following_args):
     tag_list = git_utils.get_tag_list(repo)
     latest   = git_utils.get_latest_tag(tag_list)
     logging.info('Available versions are:')
-    git_utils.print_tag_list(tag_list, filter=args.all_versions)
+    git_utils.print_tag_list(tag_list, filter=args.filter)
     logging.info('The most recent release is: %s' % latest)
 
