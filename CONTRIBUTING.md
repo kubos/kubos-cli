@@ -31,7 +31,7 @@ Follow these instructions for setting up [Vagrant for Kubos](http://docs.kubos.c
 #### Linking your volume
 To develop locally on your machine and have the changes take affect, link your cloned kubos-cli folder to Vagrant.
 
-Change this line:
+Open your Vagrant file from the previous step and change the following line:
 ```
 config.vm.synced_folder "../data", "/vagrant_data"
 ```
@@ -39,11 +39,16 @@ To this
 ```
 config.vm.synced_folder "~/Projects/kubos-cli, "/home/vagrant/kubos-cli"
 ```
+Afterwards, if you have already ran Vagrant, you will need to reload for the changes to take affect.
+```
+vagrant reload
+```
 
 ### Installing Dependent Packages
 Next, log into your Vagrant environment and install Kubos CLI for development
 ```
 vagrant up
+vagrant ssh
 ```
 It is also recommended to use the latest version of pip. You can upgrade it with:
 ```
@@ -66,8 +71,15 @@ pip install -r requirements.txt
 
 ```
 cd /home/vagrant/kubos-cli
+// Integration
 python ./kubos/test/integration/integration_test.py
+
+// Unit
+python setup.py test
 ```
+
+*Note* After making changes to your code, run both unit and integration tests to ensure no
+side affects have occurred.
 
 ### Submitting code
 
