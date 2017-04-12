@@ -36,9 +36,10 @@ def get_tag_list(repo):
     return tag_list
 
 
-def filter_minor_tags(display_num, tag_list):
+def filter_cd_generated_tags(display_num, tag_list):
     '''
-    With every merge to Master of the Kubos repo theres a new tag/release generated.
+    With every merge to Master of the Kubos repo theres the CD config generates
+    and releases a new tag/release..
     This filters only the most recent display_num number of release tags.
     '''
     filtered_tags = []
@@ -59,7 +60,7 @@ def print_tag_list(tag_list, filter=True):
     active_version = get_active_kubos_version()
 
     if filter:  #filter the minor versions
-        tag_list = filter_minor_tags(SHOW_NUMBER_MINOR_VERSIONS, tag_list)
+        tag_list = filter_cd_generated_tags(SHOW_NUMBER_MINOR_VERSIONS, tag_list)
 
     for tag in tag_list:
         if tag == active_version:
