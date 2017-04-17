@@ -34,4 +34,4 @@ SDK_MODULE_JSON = os.path.join(KUBOS_RESOURCE_DIR, 'module.json')
 GLOBAL_TARGET_PATH  = os.path.join('/', 'usr', 'local', 'lib', 'yotta_targets')
 GLOBAL_MODULE_PATH  = os.path.join('/', 'usr', 'local', 'lib', 'yotta_modules')
 
-SHOW_NUMBER_MINOR_VERSIONS = 0
+SHOW_NUMBER_CD_VERSIONS = 0
