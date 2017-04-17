@@ -71,15 +71,15 @@ pip install -r requirements.txt
 
 ```
 cd /home/vagrant/kubos-cli
-// Integration
+# Integration
 python ./kubos/test/integration/integration_test.py
 
-// Unit
+# Unit
 python setup.py test
 ```
 
 *Note* After making changes to your code, run both unit and integration tests to ensure no
-side affects have occurred.
+side effects have occurred.
 
 ### Submitting code
 
