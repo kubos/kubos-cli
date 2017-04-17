@@ -60,6 +60,24 @@ def execCommand(args, following_args):
         final_module_json.write(str_module_data)
     os.chdir(proj_name_dir)
     sdk_utils.link_global_cache_to_project(proj_name_dir)
+    if args.rt:
+        remove_unruly_rt_dependencies()
+
+
+def remove_unruly_rt_dependencies():
+    '''
+    All modules from the global cache are linked to project during the initialization.
+    For RT projects some dependencies are built even though they are not used and cause errors.
+    This function holds a list of these modules and removes them when RT projects
+    are initialized.
+    '''
+
+    dependency_list = ['cmocka'] #add new module names to the list if new build issues are found in the future.
+
+    for dep in dependency_list:
+        path = os.path.join(os.getcwd(), 'yotta_modules', dep)
+        if os.path.islink(path):
+            os.unlink(path)
 
 def get_target_list():
     '''
