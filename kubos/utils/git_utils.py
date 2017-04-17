@@ -63,7 +63,7 @@ def filter_cd_generated_tags(display_num, tag_list):
 def print_tag_list(tag_list, filter=True):
     active_version = get_active_kubos_version()
 
-    if filter:  #filter the CD Gernerated versions
+    if filter:  #filter the CD Generated versions
         tag_list = filter_cd_generated_tags(SHOW_NUMBER_CD_VERSIONS, tag_list)
 
     for tag in tag_list:
