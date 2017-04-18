@@ -99,7 +99,7 @@ class KubosSdkUtilsTest(KubosTestCase):
         idx = 0
         for call in call_list:
             args, kwargs = call[0]
-            self.assertEqual(expected_args[idx], args)
+            self.assertTrue(args in expected_args)
             idx = idx + 1
 
 
