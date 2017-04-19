@@ -10,7 +10,7 @@ version_key = 'version'
 
 def main():
     '''
-    This script updates versions, builds and deploys new versions of the kubos-cli.
+    This script updates versions, builds and deploys new versions of the Kubos CLI.
 
     How to use this script:
 
@@ -20,7 +20,7 @@ def main():
     in module.json), build and upload the module to pypi.
 
     If you don't care about the version number, just merge your changes to master
-    of the Kubos-cli repo. Once the tests pass, this will bump the build # of the version,
+    of the kubos-cli repo. Once the tests pass, this will bump the build # of the version,
     tag and upload the module to pypi.
     '''
     latest_tag = get_latest_tag()
@@ -75,19 +75,6 @@ def bump_and_write_version(version):
                                      indent=4,
                                      separators=(',', ': '))
                                      )
-    return version
-
-
-def check_and_commit_module_version(latest_tag):
-    '''
-    If the module.json version number has been bumped but not tagged, this won't
-    increment the version but will tag and release it.
-
-    If the module.json version number matches the latest tag, this will bump the
-    version number and continue.
-    '''
-
-    data[version_key] = version
     return version
 
 
