@@ -17,8 +17,3 @@ test:
         - python ./kubos/test/integration/integration_test.py
         - python setup.py test
 
-deployment:
-  production:
-    branch: master
-    commands:
-      - python deploy.py
