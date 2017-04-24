@@ -38,7 +38,7 @@ def execCommand(args, following_args):
             version_list = git_utils.get_tag_list(repo)
             logging.info('There\'s not an active Kubos source version..')
             logging.info('The available versions are:')
-            git_utils.print_tag_list(version_list)
+            git_utils.print_tag_list(version_list, filter=True)
             logging.info('Please run kubos use <version> (with one of the above versions)' + \
                   'to checkout a version of the source before working with a project.')
         else:

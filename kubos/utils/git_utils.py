@@ -32,23 +32,50 @@ def get_tag_list(repo):
     tags = repo.tags
     tag_list = []
     for tag in tags:
-        tag_list.append(tag)
+        tag_list.insert(0, tag.name)
     return tag_list
 
 
-def print_tag_list(tag_list):
-    active_version = get_active_kubos_version()
+def filter_cd_generated_tags(display_num, tag_list):
+    '''
+    cd_generated_versions are the auto generated releases from the CD configuration. With
+    every merge to master of the kubos repo one of these release tags is generated.
+
+    ga_release_versions are manually created, more significant (general availability) releases that should have higher levels
+    of stability than cd_generated_version releases will.
+
+    This function filters only the most recent display_num number of cd_generated_versions from tag_list.
+    '''
+    filtered_tags = []
+    ga_release_version   = re.compile('v?\d+\.\d+\.\d+')
+    cd_generated_version = re.compile('v?\d+\.\d+\.\d+\.\d+')
     for tag in tag_list:
-        tag_name = tag.name #tag.name is immutable...
-        if tag.name == active_version:
-            tag_name = tag.name + ' *'
-        logging.info(tag_name)
+        if cd_generated_version.match(tag):
+            if display_num <= 0:
+                continue
+            filtered_tags.append(tag)
+            display_num = display_num - 1
+        elif ga_release_version.match(tag):
+            filtered_tags.append(tag)
+    return filtered_tags
+
+
+def print_tag_list(tag_list, filter=True):
+    active_version = get_active_kubos_version()
+
+    if filter:  #filter the CD Generated versions
+        tag_list = filter_cd_generated_tags(SHOW_NUMBER_CD_VERSIONS, tag_list)
+
+    for tag in tag_list:
+        if tag == active_version:
+            tag = tag + ' *'
+        logging.info(tag)
 
 
 def get_latest_tag(tag_list):
-    latest_tag = git.TagReference("", "", check_path=False) #Set to a dummy tag that will be less than any other valid tag
+    latest_tag = '0.0.0' #Set to a dummy tag that will be less than any other valid tag
     for tag in tag_list:
-        if packaging.version.parse(tag.name) > packaging.version.parse(latest_tag.name):
+        if packaging.version.parse(tag) > packaging.version.parse(latest_tag):
             latest_tag = tag
     return latest_tag
 
@@ -81,14 +108,14 @@ def update_version_file(version):
 
 def clone_example_repo(repo_dir, repo_url):
     '''
-    For the example repos (kubos-rt-example, kubos-linux-example) we 
-    simply checkout the latest version, rather than making the user 
+    For the example repos (kubos-rt-example, kubos-linux-example) we
+    simply checkout the latest version, rather than making the user
     specify a specific version of the example repo.
     '''
     repo = clone_repo(repo_dir, repo_url)
     tag_list   = get_tag_list(repo)
     latest_tag = get_latest_tag(tag_list)
-    checkout_and_update_version(latest_tag.name, repo)
+    checkout_and_update_version(latest_tag, repo)
 
 
 def clone_repo(repo_dir, repo_url):
@@ -120,8 +147,8 @@ def set_active_kubos_version(set_tag, repo):
     tag_list = get_tag_list(repo)
     found = False
     for tag in tag_list:
-        if tag.name == set_tag:
-            checkout_and_update_version(tag.name, repo)
+        if tag == set_tag:
+            checkout_and_update_version(tag, repo)
             found = True
             break
     if not found:
