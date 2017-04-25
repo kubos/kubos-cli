@@ -27,6 +27,8 @@ from yotta import link, link_target
 from kubos.utils import sdk_utils
 from kubos.test.utils import KubosTestCase
 
+from sets import Set
+
 class KubosSdkUtilsTest(KubosTestCase):
 
     def setUp(self):
@@ -37,18 +39,21 @@ class KubosSdkUtilsTest(KubosTestCase):
                |____ dir_a
                |        |____ module.json
                |____ dir_b
-                        |____ dir_c
-                                 |____ target.json
+               |         |____ dir_c
+               |                  |____ target.json
+               |____ dir_d
         '''
         self.dir_a = os.path.join(self.base_dir, 'dir_a')
         self.dir_b = os.path.join(self.base_dir, 'dir_b')
         self.dir_c = os.path.join(self.dir_b, 'dir_c')
+        self.dir_d = os.path.join(self.base_dir, 'dir_d')
         self.module_json = os.path.join(self.dir_a, 'module.json')
         self.target_json = os.path.join(self.dir_c, 'target.json')
 
         os.makedirs(self.dir_a)
         os.makedirs(self.dir_b)
         os.makedirs(self.dir_c)
+        os.makedirs(self.dir_d)
 
         with open(self.module_json, 'w') as module_file:
             module_file.write(Test_Module_JSON)
@@ -101,6 +106,35 @@ class KubosSdkUtilsTest(KubosTestCase):
             args, kwargs = call[0]
             self.assertTrue(args in expected_args)
             idx = idx + 1
+
+
+    def test_get_all_eligible_targets(self):
+        '''
+        setup target hierarchy:
+
+        target_a
+        |_target_b
+          |_target_c
+
+        target_c should be the only target that is an elibible target
+        '''
+
+        inherit_json = '{"name" : "%s", "inherits" : {"%s" : "Fake repo url"}}'
+        no_inherit_json = '{"name": "%s"}'
+        expected_targets = Set(['target_c'])
+        target_json = 'target.json'
+
+        with open(os.path.join(self.dir_a, target_json), 'w') as target_file:
+            target_file.write(no_inherit_json % 'target_a')
+            print os.path.join(self.dir_a, target_json)
+        with open(os.path.join(self.dir_b, target_json), 'w') as target_file:
+            target_file.write(inherit_json % ('target_b', 'target_a'))
+        with open(os.path.join(self.dir_d, target_json), 'w') as target_file:
+            target_file.write(inherit_json % ('target_c', 'target_b'))
+
+        #Now the actual testing bits
+        targets = sdk_utils.get_all_eligible_targets(self.base_dir)
+        self.assertEqual(targets, expected_targets)
 
 
     def tearDown(self):
