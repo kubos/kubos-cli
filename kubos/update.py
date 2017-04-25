@@ -49,4 +49,4 @@ def execCommand(args, following_args):
     if args.latest:
         latest_tag = git_utils.get_latest_tag(git_utils.get_tag_list(src_repo))
         logging.info('Setting latest release: %s' % latest_tag)
-        git_utils.check_provided_version(latest_tag.name, src_repo)
+        git_utils.check_provided_version(latest_tag, src_repo)
