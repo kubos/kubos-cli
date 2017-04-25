@@ -22,6 +22,7 @@ import yotta
 import yotta.link
 import yotta.link_target
 
+from sets import Set
 from kubos.utils.constants import *
 
 def get_sdk_attribute(attr):
@@ -120,3 +121,58 @@ def link_global_cache_to_project(project):
 
 def link_to_global_cache(path):
     link_entities(path, None)
+
+
+def get_target_lists():
+    '''
+    Splits rt and linux targets.
+    Returns the list of kubos_rt targets and the list of linux targets.
+    '''
+    linux_list = []
+    rt_list = []
+    target_list = get_all_eligible_targets(GLOBAL_TARGET_PATH)
+
+    #TODO: Get a better way of determining linux targets
+    for target in target_list:
+        if 'linux' in target:
+            linux_list.append(target)
+        else:
+            rt_list.append(target)
+    return rt_list, linux_list
+
+
+def get_all_eligible_targets(path):
+    '''
+    Returns the list of targets which do not have dependent targets.
+    Example target hierarchy:
+    kubos-gcc
+      |____kubos-rt-gcc
+             |____kubos-arm-none-eabi-gcc
+                    |____stm32f407-disco-gcc <- This is the only target we want to build
+    The other targets in the hierarchy are not meant to be built against
+    '''
+    inherit_key = 'inherits'
+    name_key    = 'name'
+    ineligible_set = Set()
+    complete_set   = Set()
+    target_dir_list = os.listdir(path)
+
+    for subdir in target_dir_list:
+        json_data = get_target_json_data(path, subdir)
+        if name_key in json_data:
+            complete_set.add(json_data['name'])
+        if inherit_key in json_data:
+            #The target this current target depends on is an ineligible target
+            target_dependency = json_data[inherit_key].keys()
+            ineligible_set.add(*target_dependency)
+    return complete_set - ineligible_set
+
+
+def get_target_json_data(path, subdir):
+    target_json = os.path.join(path, subdir, 'target.json')
+    if os.path.isfile(target_json):
+        with open(target_json, 'r') as target_file:
+            json_data = json.loads(target_file.read())
+            return json_data
+    return None
+
