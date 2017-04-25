@@ -9,4 +9,5 @@ packaging
 pager
 requests
 yotta
+uritemplate==3.0.0
 pysocks
