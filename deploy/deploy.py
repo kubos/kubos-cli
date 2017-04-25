@@ -24,7 +24,7 @@ module_json = os.path.join(cli_root_dir, 'module.json')
 
 def main():
     '''
-    This script updates versions and builds new versions of the Kubos CLI.
+    This script updates, versions, and builds new versions of the Kubos CLI.
 
     How to use this script:
 
