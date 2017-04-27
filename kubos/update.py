@@ -51,7 +51,7 @@ def execCommand(args, following_args):
 
 
 def update_cli():
-    logging.info("updating the Kubos-cli...")
+    logging.info("updating the Kubos CLI...")
     return_code = subprocess.check_call(INSTALL_COMMAND)
     if return_code == 0:
         logging.info('Succesfully updated the Kubos-cli module')
