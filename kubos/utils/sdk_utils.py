@@ -191,14 +191,14 @@ def refresh_target_cache():
         target_file.write(json.dumps(data))
 
 
-def load_target_list(platform='all'):
+def load_target_list(platform):
     if not os.path.isdir(KUBOS_TARGET_CACHE_FILE):
         refresh_target_cache()
     with open(KUBOS_TARGET_CACHE_FILE, 'r') as json_file:
         data = json.loads(json_file.read())
     linux_targets = data[LINUX_KEY]
     rt_targets    = data[RT_KEY]
-    if platform == 'all':
+    if platform == None: #if no platform is listed in the module.json, dont restrict the target type
         return linux_targets + rt_targets
     elif platform == 'linux':
         return linux_targets

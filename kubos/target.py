@@ -27,7 +27,7 @@ from kubos.utils.sdk_utils import *
 
 def addOptions(parser):
     proj_type = get_project_type()
-    choices = load_target_list(platform=proj_type)
+    choices = load_target_list(proj_type)
     parser.add_argument('set_target', nargs='?', default=None, choices=choices, help='set a new target board or display the current target')
     parser.add_argument('-l', '--list', action='store_true', default=False, help='List all of the available target names')
 
