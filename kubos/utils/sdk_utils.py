@@ -121,6 +121,7 @@ def link_global_cache_to_project(project):
 
 def link_to_global_cache(path):
     link_entities(path, None)
+    refresh_target_cache()
 
 
 def get_target_lists():
@@ -176,3 +177,53 @@ def get_target_json_data(path, subdir):
             return json_data
     return None
 
+
+def refresh_target_cache():
+    '''
+    This function stores the linux and rt targets in a cache file under the .kubos directory
+    '''
+    data = {}
+
+    rt_targets, linux_targets = get_target_lists()
+    data[LINUX_KEY] = linux_targets
+    data[RT_KEY]    = rt_targets
+    with open(KUBOS_TARGET_CACHE_FILE, 'w') as target_file:
+        target_file.write(json.dumps(data))
+
+
+def load_target_list(platform='all'):
+    if not os.path.isdir(KUBOS_TARGET_CACHE_FILE):
+        refresh_target_cache()
+    with open(KUBOS_TARGET_CACHE_FILE, 'r') as json_file:
+        data = json.loads(json_file.read())
+    linux_targets = data[LINUX_KEY]
+    rt_targets    = data[RT_KEY]
+    if platform == 'all':
+        return linux_targets + rt_targets
+    elif platform == 'linux':
+        return linux_targets
+    elif platform == 'rt':
+        return rt_targets
+
+
+def get_project_type():
+    '''
+    Returns the project "platform" type: either None, 'linux', or 'rt'
+    '''
+    platform_key = 'platform'
+    valid_platforms = ['rt', 'linux']
+    module_json = os.path.join(os.getcwd(), 'module.json')
+    if os.path.isfile(module_json):
+        with open(module_json, 'r') as module_file:
+            data = json.loads(module_file.read())
+        if platform_key in data:
+            platform = data[platform_key]
+            if platform in valid_platforms:
+                return platform
+            else:
+                logging.warning('Project has an invalid platform type of: %s' % platform)
+                return None
+    else:
+        #There is no module.json
+        logging.info('there no module.json file....')
+        return None
