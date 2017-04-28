@@ -209,21 +209,26 @@ def load_target_list(platform):
 def get_project_type():
     '''
     Returns the project "platform" type: either None, 'linux', or 'rt'
+    This infers the project type from its dependencies. Kubos-rt is the
+    key dependency that differentiates linux and rt projects.
+
+    A return value of None will not limit or filter any target types
     '''
-    platform_key = 'platform'
+    dependency_key = 'dependencies'
     valid_platforms = ['rt', 'linux']
     module_json = os.path.join(os.getcwd(), 'module.json')
     if os.path.isfile(module_json):
         with open(module_json, 'r') as module_file:
             data = json.loads(module_file.read())
-        if platform_key in data:
-            platform = data[platform_key]
-            if platform in valid_platforms:
-                return platform
+        if dependency_key in data:
+            deps = data[dependency_key]
+            if 'kubos-rt' in deps:
+                return 'rt'
             else:
-                logging.warning('Project has an invalid platform type of: %s' % platform)
-                return None
+                return 'linux'
+        else:
+            #This project doesn't have a dependencies field. This is most likely running in a unit testing context
+            return None
     else:
         #There is no module.json
-        logging.info('there no module.json file....')
         return None
