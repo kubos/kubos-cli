@@ -116,7 +116,7 @@ class KubosSdkUtilsTest(KubosTestCase):
         |_target_b
           |_target_c
 
-        target_c should be the only target that is an elibible target
+        target_c should be the only target that is an eligible target
         '''
 
         inherit_json = '{"name" : "%s", "inherits" : {"%s" : "Fake repo url"}}'
