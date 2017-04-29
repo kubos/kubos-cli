@@ -27,14 +27,14 @@ from kubos.utils.constants import KUBOS_SRC_DIR
 def addOptions(parser):
     parser.add_argument('-l', '--list', action='store_true', default=False, help='List all of the locally available KubOS source versions')
 
-
 def execCommand(args, following_args):
     kubos_version = git_utils.get_active_kubos_version()
     logging.info('Kubos-CLI version    : %s' % 'v' + get_installed_version('kubos-cli'))
     logging.info('Kubos Source version : %s' % kubos_version)
+
     if not kubos_version:
         if os.path.isdir(KUBOS_SRC_DIR):
-            repo  = git_utils.get_repo(KUBOS_SRC_DIR)
+            repo = git_utils.get_repo(KUBOS_SRC_DIR)
             version_list = git_utils.get_tag_list(repo)
             logging.info('There\'s not an active Kubos source version..')
             logging.info('The available versions are:')
