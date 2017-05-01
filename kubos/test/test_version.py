@@ -19,7 +19,7 @@ from pip.utils import get_installed_version
 
 from kubos import version
 
-class KubosBuildTest(unittest.TestCase):
+class VersionTest(unittest.TestCase):
     def test_add_options(self):
         parser = MagicMock()
         parser.add_argument = MagicMock()
