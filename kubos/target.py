@@ -26,8 +26,11 @@ from kubos.utils.constants import GLOBAL_TARGET_PATH
 from kubos.utils.sdk_utils import *
 
 def addOptions(parser):
-    parser.add_argument('set_target', nargs='?', default=None, help='set a new target board or display the current target')
+    proj_type = get_project_type()
+    choices = load_target_list(proj_type)
+    parser.add_argument('set_target', nargs='?', default=None, choices=choices, help='Set a new target board or display the current target')
     parser.add_argument('-l', '--list', action='store_true', default=False, help='List all of the available target names')
+
 
 def execCommand(args, following_args):
     args = vars(args)
@@ -74,7 +77,8 @@ def set_target(new_target):
             sys.exit(1)
 
 def print_target_list():
-    target_list = get_target_list()
+    proj_type = get_project_type()
+    target_list = load_target_list(proj_type)
     logging.info('Available targets are:\n')
     for _target in target_list:
         logging.info(_target)

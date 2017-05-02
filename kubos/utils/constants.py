@@ -28,10 +28,14 @@ KUBOS_LINUX_EXAMPLE_DIR = os.path.join(KUBOS_DIR, 'linux-example')
 
 KUBOS_GIT_DIR = os.path.join(KUBOS_SRC_DIR, '.git')
 KUBOS_VERSION_FILE = os.path.join(KUBOS_DIR, 'version.txt')
+KUBOS_TARGET_CACHE_FILE = os.path.join(KUBOS_DIR, 'targets.json')
 
 KUBOS_RESOURCE_DIR = os.path.join(resource_filename(__name__, ''), '..')
 SDK_MODULE_JSON = os.path.join(KUBOS_RESOURCE_DIR, 'module.json')
 GLOBAL_TARGET_PATH  = os.path.join('/', 'usr', 'local', 'lib', 'yotta_targets')
 GLOBAL_MODULE_PATH  = os.path.join('/', 'usr', 'local', 'lib', 'yotta_modules')
+
+LINUX_KEY = 'linux-targets'
+RT_KEY    = 'rt-targets'
 
 SHOW_NUMBER_CD_VERSIONS = 0

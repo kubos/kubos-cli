@@ -3,7 +3,6 @@
 # Licensed under the Apache License, Version 2.0
 # See LICENSE file for details.
 
-
 # NOTE: argcomplete must be first!
 import argcomplete
 

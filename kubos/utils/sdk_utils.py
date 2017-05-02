@@ -22,6 +22,7 @@ import yotta
 import yotta.link
 import yotta.link_target
 
+from sets import Set
 from kubos.utils.constants import *
 
 def get_sdk_attribute(attr):
@@ -120,3 +121,114 @@ def link_global_cache_to_project(project):
 
 def link_to_global_cache(path):
     link_entities(path, None)
+    refresh_target_cache()
+
+
+def get_target_lists():
+    '''
+    Splits rt and linux targets.
+    Returns the list of kubos_rt targets and the list of linux targets.
+    '''
+    linux_list = []
+    rt_list = []
+    target_list = get_all_eligible_targets(GLOBAL_TARGET_PATH)
+
+    #TODO: Get a better way of determining linux targets
+    for target in target_list:
+        if 'linux' in target:
+            linux_list.append(target)
+        else:
+            rt_list.append(target)
+    return rt_list, linux_list
+
+
+def get_all_eligible_targets(path):
+    '''
+    Returns the list of targets which do not have dependent targets.
+    Example target hierarchy:
+    kubos-gcc
+      |____kubos-rt-gcc
+             |____kubos-arm-none-eabi-gcc
+                    |____stm32f407-disco-gcc <- This is the only target we want to build
+    The other targets in the hierarchy are not meant to be built against
+    '''
+    inherit_key = 'inherits'
+    name_key    = 'name'
+    ineligible_set = Set()
+    complete_set   = Set()
+    target_dir_list = os.listdir(path)
+
+    for subdir in target_dir_list:
+        json_data = get_target_json_data(path, subdir)
+        if name_key in json_data:
+            complete_set.add(json_data['name'])
+        if inherit_key in json_data:
+            #The target this current target depends on is an ineligible target
+            target_dependency = json_data[inherit_key].keys()
+            ineligible_set.add(*target_dependency)
+    return complete_set - ineligible_set
+
+
+def get_target_json_data(path, subdir):
+    target_json = os.path.join(path, subdir, 'target.json')
+    if os.path.isfile(target_json):
+        with open(target_json, 'r') as target_file:
+            json_data = json.loads(target_file.read())
+            return json_data
+    return None
+
+
+def refresh_target_cache():
+    '''
+    This function stores the linux and rt targets in a cache file under the .kubos directory
+    '''
+    data = {}
+
+    rt_targets, linux_targets = get_target_lists()
+    data[LINUX_KEY] = linux_targets
+    data[RT_KEY]    = rt_targets
+    with open(KUBOS_TARGET_CACHE_FILE, 'w') as target_file:
+        target_file.write(json.dumps(data))
+
+
+def load_target_list(platform):
+    if not os.path.isdir(KUBOS_TARGET_CACHE_FILE):
+        refresh_target_cache()
+    with open(KUBOS_TARGET_CACHE_FILE, 'r') as json_file:
+        data = json.loads(json_file.read())
+    linux_targets = data[LINUX_KEY]
+    rt_targets    = data[RT_KEY]
+    if platform == None: #if no platform is listed in the module.json, dont restrict the target type
+        return linux_targets + rt_targets
+    elif platform == 'linux':
+        return linux_targets
+    elif platform == 'rt':
+        return rt_targets
+
+
+def get_project_type():
+    '''
+    Returns the project "platform" type: either None, 'linux', or 'rt'
+    This infers the project type from its dependencies. Kubos-rt is the
+    key dependency that differentiates linux and rt projects.
+
+    A return value of None will not limit or filter any target types
+    '''
+    dependency_key = 'dependencies'
+    valid_platforms = ['rt', 'linux']
+    module_json = os.path.join(os.getcwd(), 'module.json')
+    if os.path.isfile(module_json):
+        with open(module_json, 'r') as module_file:
+            data = json.loads(module_file.read())
+        if dependency_key in data:
+            deps = data[dependency_key]
+            if 'kubos-rt' in deps:
+                return 'rt'
+            else:
+                return 'linux'
+        else:
+            #This project doesn't have a dependencies field. This is most likely running in a unit testing context
+            return None
+    else:
+        #There is no module.json
+        return None
