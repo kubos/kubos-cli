@@ -1,0 +1,58 @@
+{
+    "options": {
+        "--config" : {
+        }
+    },
+
+    "subcommands": {
+        "target": {
+            "--list": {
+                "choices": []
+            },
+            "set_target": {
+                "choices": [
+                    "stm32f4",
+                    "msp430"
+                ]
+            }
+        },
+        "init": {
+            "--linux": {
+                "choices": []
+            },
+            "--rt": {
+                "choices": []
+            }
+        },
+
+        "link": {
+            "--all": {
+                "choices": []
+            },
+            "module": {
+                "choices": []
+            }
+        },
+        "link-target": {
+            "target": {
+                "choices": []
+            }
+        },
+        "update": {
+            "--latest": {
+                "choices": []
+            },
+            "--source": {
+                "choices": []
+            },
+            "--cli": {
+                "choices": []
+            },
+            "--all": {
+                "choices": []
+            }
+
+        }
+
+    }
+}
