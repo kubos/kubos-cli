@@ -1,142 +1,99 @@
 {
     "options": {
-        "--config" : {
-            "choices" : []
-        },
-        "--target" : {
-            "choices" : []
-        }
+        "--config" : {},
+        "--target" : {}
     },
     "subcommands": {
         "build": {
-            "--help" : {
-                "choices" : []
-            }
+            "--debug-build" : {},
+            "--release-build" : {},
+            "--generate-only" : {},
+            "--cmake-generator" : {},
+            "--help" : {}
         },
         "clean": {
-            "--help" : {
-                "choices" : []
-            }
+            "--help" : {}
         },
         "config": {
-            "--help" : {
-                "choices" : []
-            }
+            "--colourful" : {},
+            "--plain" : {},
+            "--help" : {}
         },
         "debug": {
-            "--help" : {
-                "choices" : []
-            }
+            "--config" : {},
+            "--help" : {}
         },
         "init": {
-            "--linux": {
-                "choices": []
-            },
-            "--rt": {
-                "choices": []
-            },
-            "--help" : {
-                "choices" : []
-            }
+            "--linux" : {},
+            "--rt" : {},
+            "--help" : {}
         },
         "link": {
-            "--all": {
-                "choices" : []
-            },
-            "module": {
-                "choices" : []
-            },
-            "--help" : {
-                "choices" : []
-            }
+            "--all": {},
+            "module": {},
+            "--help" : {}
         },
         "link-target": {
-            "target": {
-                "choices" : []
-            },
-            "--help" : {
-                "choices" : []
-            }
-        },
-        "list" : {
-            "--help" : {
-                "choices" : []
-            }
-        },
-        "outdated": {
-            "--help" : {
-                "choices" : []
-            }
-        },
-        "remove": {
-            "--help" : {
-                "choices" : []
-            }
-        },
-        "start": {
-            "--help" : {
-                "choices" : []
-            }
-        },
-        "target": {
-            "--list": {
-                "choices" : []
-            },
-            "set_target": {
-                "choices" : []
-            },
-            "--help" : {
-                "choices" : []
-            }
-        },
-        "test": {
-            "--help" : {
-                "choices" : []
-            }
+            "target": {},
+            "--help" : {}
         },
         "licenses": {
-            "--help" : {
-                "choices" : []
-            }
+            "--all": {},
+            "--help" : {}
+        },
+        "list" : {
+            "--display-origin" : {},
+            "--json" : {},
+            "--help" : {}
+        },
+        "outdated": {
+            "--help" : {}
+        },
+        "remove": {
+            "--help" : {}
+        },
+        "start": {
+            "--help" : {}
+        },
+        "target": {
+            "--list": {},
+            "set_target": {},
+            "--help" : {}
+        },
+        "test": {
+            "--list": {},
+            "--no-build" : {},
+            "--config": {},
+            "--debug-build" : {},
+            "--release-build" : {},
+            "--cmake-generator" : {},
+            "--help" : {}
+        },
+        "licenses": {
+            "--help" : {}
         },
 
         "shrinkwrap": {
-            "--help" : {
-                "choices" : []
-            }
+            "--help" : {}
         },
         "update": {
-            "--latest": {
-                "choices" : []
-            },
-            "--source": {
-                "choices" : []
-            },
-            "--cli": {
-                "choices" : []
-            },
-            "--all": {
-                "choices" : []
-            },
-            "--help" : {
-                "choices" : []
-            }
-
+            "--latest": {},
+            "--source": {},
+            "--cli": {},
+            "--all": {},
+            "--help" : {}
         },
         "use": {
-            "--help" : {
-                "choices" : []
-            }
+            "--branch" : {},
+            "--help" : {}
         },
         "version": {
-            "--help" : {
-                "choices" : []
-            }
+            "--list" : {},
+            "--help" : {}
         },
         "versions": {
-            "--help" : {
-                "choices" : []
-            }
+            "--list" : {},
+            "--help" : {}
         }
     }
 }
