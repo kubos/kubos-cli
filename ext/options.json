@@ -1,19 +1,31 @@
 {
     "options": {
         "--config" : {
+            "choices" : []
+        },
+        "--target" : {
+            "choices" : []
         }
     },
-
     "subcommands": {
-        "target": {
-            "--list": {
-                "choices": []
-            },
-            "set_target": {
-                "choices": [
-                    "stm32f4",
-                    "msp430"
-                ]
+        "build": {
+            "--help" : {
+                "choices" : []
+            }
+        },
+        "clean": {
+            "--help" : {
+                "choices" : []
+            }
+        },
+        "config": {
+            "--help" : {
+                "choices" : []
+            }
+        },
+        "debug": {
+            "--help" : {
+                "choices" : []
             }
         },
         "init": {
@@ -22,37 +34,110 @@
             },
             "--rt": {
                 "choices": []
+            },
+            "--help" : {
+                "choices" : []
             }
         },
-
         "link": {
             "--all": {
-                "choices": []
+                "choices" : []
             },
             "module": {
-                "choices": []
+                "choices" : []
+            },
+            "--help" : {
+                "choices" : []
             }
         },
         "link-target": {
             "target": {
-                "choices": []
+                "choices" : []
+            },
+            "--help" : {
+                "choices" : []
+            }
+        },
+        "list" : {
+            "--help" : {
+                "choices" : []
+            }
+        },
+        "outdated": {
+            "--help" : {
+                "choices" : []
+            }
+        },
+        "remove": {
+            "--help" : {
+                "choices" : []
+            }
+        },
+        "start": {
+            "--help" : {
+                "choices" : []
+            }
+        },
+        "target": {
+            "--list": {
+                "choices" : []
+            },
+            "set_target": {
+                "choices" : []
+            },
+            "--help" : {
+                "choices" : []
+            }
+        },
+        "test": {
+            "--help" : {
+                "choices" : []
+            }
+        },
+        "licenses": {
+            "--help" : {
+                "choices" : []
+            }
+        },
+
+        "shrinkwrap": {
+            "--help" : {
+                "choices" : []
             }
         },
         "update": {
             "--latest": {
-                "choices": []
+                "choices" : []
             },
             "--source": {
-                "choices": []
+                "choices" : []
             },
             "--cli": {
-                "choices": []
+                "choices" : []
             },
             "--all": {
-                "choices": []
+                "choices" : []
+            },
+            "--help" : {
+                "choices" : []
             }
 
+        },
+        "use": {
+            "--help" : {
+                "choices" : []
+            }
+        },
+        "version": {
+            "--help" : {
+                "choices" : []
+            }
+        },
+        "versions": {
+            "--help" : {
+                "choices" : []
+            }
         }
-
     }
 }
+
