@@ -38,4 +38,11 @@ GLOBAL_MODULE_PATH  = os.path.join('/', 'usr', 'local', 'lib', 'yotta_modules')
 LINUX_KEY = 'linux-targets'
 RT_KEY    = 'rt-targets'
 
+COMPLETION_RESOURCE_DIR = os.path.join(KUBOS_RESOURCE_DIR, 'completion')
+COMPLETION_SCRIPT = os.path.join(COMPLETION_RESOURCE_DIR, 'kubos_completion.bash')
+COMPLETION_OPTIONS_FILE = os.path.join(COMPLETION_RESOURCE_DIR, 'options.json')
+COMPLETION_PYTHON_FILE = os.path.join(COMPLETION_RESOURCE_DIR, 'completion.py')
+
+COMPLETION_LINK_DEST = os.path.join(KUBOS_DIR, 'completion')
+
 SHOW_NUMBER_CD_VERSIONS = 0
