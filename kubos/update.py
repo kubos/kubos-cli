@@ -54,9 +54,9 @@ def update_cli():
     logging.info("updating the Kubos CLI...")
     return_code = subprocess.check_call(INSTALL_COMMAND)
     if return_code == 0:
-        logging.info('Succesfully updated the Kubos CLI module')
+        logging.info('Successfully updated the Kubos CLI module')
     else:
-        #The subprocess stdout/stderr is printed to the console. Any errors that occurr will be visible there.
+        #The subprocess stdout/stderr is printed to the console. Any errors that occur will be visible there.
         logging.error('There was an issue updating the Kubos CLI module. See the above log for the error details.')
 
 
