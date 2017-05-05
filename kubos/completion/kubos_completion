@@ -1,0 +1,12 @@
+
+_kubos()
+{
+    complete_script="${HOME}/.kubos/completion/complete.py"
+    if [ -e $complete_script ]
+    then
+        output="$(python $complete_script ${COMP_LINE})"
+        IFS=' ' read -r -a COMPREPLY <<< "$output"
+    fi
+}
+
+complete -F _kubos kubos

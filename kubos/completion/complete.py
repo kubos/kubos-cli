@@ -19,7 +19,7 @@ def main():
 
 
 class Completer(object):
-    JSON_FILE = os.path.join(os.path.expanduser('~'), '.options.json')
+    JSON_FILE = os.path.join(os.path.expanduser('~'), '.kubos', 'completion', 'options.json')
 
     def __init__(self):
         if os.path.isfile(self.JSON_FILE):
@@ -140,7 +140,7 @@ class Completer(object):
             if arg.startswith('--'):
                 choices.append(arg)
             else:
-                if 'choices' in args[arg]:
+                if 'choices' in args[arg] and args[arg]['choices'] is not None:
                     choices += args[arg]['choices']
         return choices
 

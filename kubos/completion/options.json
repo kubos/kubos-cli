@@ -81,6 +81,7 @@
             "--source": {},
             "--cli": {},
             "--all": {},
+            "--tab-completion": {},
             "--help" : {}
         },
         "use": {
