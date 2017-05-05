@@ -20,5 +20,6 @@
             "kubos=kubos:main"
         ]
     },
+    "include_package_data": true,
     "test_suite": "kubos.test"
 }
