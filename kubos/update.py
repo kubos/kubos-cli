@@ -46,12 +46,13 @@ def addOptions(parser):
 def execCommand(args, following_args):
     if args.component == 'a' or args.component == 's':
         update_source_modules(args)
+    # TODO: I don't think this a check can ever be reached
     if args.component == 'a' or args.component == 'c':
         update_cli()
 
 
 def update_cli():
-    logging.info("updating the Kubos CLI...")
+    logging.info('Updating the Kubos CLI...')
     return_code = subprocess.check_call(INSTALL_COMMAND)
     if return_code == 0:
         logging.info('Succesfully updated the Kubos CLI module')
