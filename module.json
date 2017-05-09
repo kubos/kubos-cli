@@ -1,9 +1,9 @@
 {
-  "name": "kubos-cli",
-  "version": "0.2.3",
-  "edition": "preview",
-  "description": "Kubos CLI",
-  "author": "Kubos",
-  "author_email": "kyle@kubos.co",
-  "url": "http://github.com/kubostech/kubos-cli"
+    "author": "Kubos",
+    "author_email": "kyle@kubos.co",
+    "description": "Kubos CLI",
+    "edition": "preview",
+    "name": "kubos-cli",
+    "url": "http://github.com/kubostech/kubos-cli",
+    "version": "0.2.3.1"
 }
