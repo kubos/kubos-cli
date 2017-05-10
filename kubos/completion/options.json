@@ -1,0 +1,104 @@
+{
+    "options": {
+        "--config" : {},
+        "--target" : {}
+    },
+    "subcommands": {
+        "build": {
+            "--debug-build" : {},
+            "--release-build" : {},
+            "--generate-only" : {},
+            "--cmake-generator" : {},
+            "--help" : {}
+        },
+        "clean": {
+            "--help" : {}
+        },
+        "config": {
+            "--colourful" : {},
+            "--plain" : {},
+            "--help" : {}
+        },
+        "debug": {
+            "--config" : {},
+            "--help" : {}
+        },
+        "init": {
+            "--linux" : {},
+            "--rt" : {},
+            "--help" : {}
+        },
+        "link": {
+            "--all": {},
+            "module": {},
+            "--help" : {}
+        },
+        "link-target": {
+            "target": {},
+            "--help" : {}
+        },
+        "licenses": {
+            "--all": {},
+            "--help" : {}
+        },
+        "list" : {
+            "--display-origin" : {},
+            "--json" : {},
+            "--help" : {}
+        },
+        "outdated": {
+            "--help" : {}
+        },
+        "remove": {
+            "--help" : {}
+        },
+        "start": {
+            "--help" : {}
+        },
+        "flash": {
+            "--help" : {}
+        },
+        "target": {
+            "--list": {},
+            "set_target": {},
+            "--help" : {}
+        },
+        "test": {
+            "--list": {},
+            "--no-build" : {},
+            "--config": {},
+            "--debug-build" : {},
+            "--release-build" : {},
+            "--cmake-generator" : {},
+            "--help" : {}
+        },
+        "licenses": {
+            "--help" : {}
+        },
+
+        "shrinkwrap": {
+            "--help" : {}
+        },
+        "update": {
+            "--latest": {},
+            "--source": {},
+            "--cli": {},
+            "--all": {},
+            "--tab-completion": {},
+            "--help" : {}
+        },
+        "use": {
+            "--branch" : {},
+            "--help" : {}
+        },
+        "version": {
+            "--list" : {},
+            "--help" : {}
+        },
+        "versions": {
+            "--list" : {},
+            "--help" : {}
+        }
+    }
+}
+
