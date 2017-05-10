@@ -93,7 +93,7 @@ def commit_and_push(version_number):
     run_cmd('git', 'config', '--global', 'user.email', os.environ['GITHUB_EMAIL'])
     run_cmd('git', 'add', 'module.json')
     print 'Committing the version update...'
-    run_cmd('git', 'commit', '-m', '"Bump version to %s. ci skip"' % version_number) #we want ci to skip to prevent an infinite release cycle.
+    run_cmd('git', 'commit', '-m', '"Bump version to %s. [ci skip]"' % version_number) #we want ci to skip to prevent an infinite release cycle.
 
     print 'Pushing the commit to origin...'
     run_cmd('git', 'push', 'origin', 'master') #push the commit
