@@ -67,7 +67,6 @@ class Completer(object):
             if subcommand is not None:
                 #gets all possible argument values for the subcommand
                 possible_arguments = self.get_valid_subcommand_argument_list(subcommand)
-                possible_subcommands = [] #they've already entered a complete subcommand don't suggest it
                 #try to get an argument following the subcommand
                 arg = self.get_next_arg()
                 if arg is not None:
