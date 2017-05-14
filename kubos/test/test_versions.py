@@ -21,12 +21,6 @@ from kubos import versions
 from kubos.utils.constants import *
 
 class VersionsTest(unittest.TestCase):
-    def test_add_options(self):
-        parser = MagicMock()
-        parser.add_argument = MagicMock()
-        versions.addOptions(parser)
-        parser.add_argument.assert_called_with('-a', '--all-versions', dest='filter', action='store_false', default=True, help='Show all available versions')
-
     @patch('kubos.utils.git_utils.print_tag_list')
     @patch('kubos.utils.git_utils.get_latest_tag')
     @patch('kubos.utils.git_utils.get_tag_list')

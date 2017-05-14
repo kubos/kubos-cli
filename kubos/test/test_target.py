@@ -29,26 +29,6 @@ class Args():
         self.plain = []
 
 class TargetTest(unittest.TestCase):
-    @patch('kubos.target.load_target_list')
-    @patch('kubos.target.get_project_type')
-    def test_add_options(self, get_project_type, load_target_list):
-        proj_type = 'example-project-type'
-        choices = 'example-choices'
-        parser = MagicMock()
-        parser.add_argument = MagicMock()
-        get_project_type.return_value = proj_type
-        load_target_list.return_value = choices
-
-        target.addOptions(parser)
-
-        get_project_type.assert_called()
-        load_target_list.assert_called_with(proj_type)
-        calls = [
-            call('set_target', nargs='?', default=None, choices=choices, help='Set a new target board or display the current target'),
-            call('-l', '--list', action='store_true', default=False, help='List all of the available target names')
-        ]
-        parser.add_argument.assert_has_calls(calls)
-
     @patch('kubos.target.show_target')
     def test_shows_target_by_default(self, show_target):
         args = Args()

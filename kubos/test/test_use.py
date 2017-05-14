@@ -26,22 +26,6 @@ class Args():
         self.branch = None
 
 class UseTest(unittest.TestCase):
-    def test_add_options(self):
-        group = MagicMock()
-        group.add_argument = MagicMock()
-        parser = MagicMock()
-        parser.add_mutually_exclusive_group = MagicMock()
-        parser.add_mutually_exclusive_group.return_value = group
-
-        use.addOptions(parser)
-
-        parser.add_mutually_exclusive_group.assert_called_with(required=True)
-        calls = [
-            call('-b', '--branch', nargs='?', default=None, help='Set the branch flag to specify to checkout a branch, not a tag'),
-            call('set_version',    nargs='?', default=None, help='Set a specific version of the KubOS modules to build your projects against.')
-        ]
-        group.add_argument.assert_has_calls(calls)
-
     @patch('kubos.utils.sdk_utils.link_to_global_cache')
     @patch('kubos.utils.sdk_utils.purge_global_cache')
     @patch('kubos.utils.git_utils.checkout_and_update_version')

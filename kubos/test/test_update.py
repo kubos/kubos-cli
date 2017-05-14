@@ -25,32 +25,6 @@ class Args():
         self.component = None
 
 class UpdateTest(unittest.TestCase):
-    def test_add_options(self):
-        group = MagicMock()
-        group.add_argument = MagicMock()
-
-        parser = MagicMock()
-        parser.add_argument = MagicMock()
-        parser.add_mutually_exclusive_group = MagicMock()
-        parser.set_defaults = MagicMock()
-        parser.add_mutually_exclusive_group.return_value = group
-
-        update.addOptions(parser)
-
-        calls = [
-            call('set_version', nargs='?', default=None, help='Specify a version of the kubos source to use.'),
-            call('-l', '--latest', action='store_true', default=False, help='Default to the most recent release of Kubos modules')
-        ]
-        parser.add_argument.assert_has_calls(calls)
-        parser.add_mutually_exclusive_group.assert_called_with()
-        parser.set_defaults.assert_called_with(component='s')
-        groupcalls = [
-            call('-s', '--source',  dest='component', action='store_const', const='s', default=False, help='Update only the source Kubos modules'),
-            call('-c', '--cli',     dest='component', action='store_const', const='c', default=False, help='Update the Kubos CLI.'),
-            call('-a', '--all',     dest='component', action='store_const', const='a', default=False, help='Update both the Kubos source modules and the Kubos CLI')
-        ]
-        group.add_argument.assert_has_calls(groupcalls)
-
     @patch('kubos.update.update_source_modules')
     def test_exec_command_update_source(self, update_source_modules):
         args = Args()
