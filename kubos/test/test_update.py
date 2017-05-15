@@ -54,7 +54,7 @@ class UpdateTest(unittest.TestCase):
         check_call.assert_called_with(update.INSTALL_COMMAND)
         calls = [
             call('Updating the Kubos CLI...'),
-            call('Succesfully updated the Kubos CLI module')
+            call('Successfully updated the Kubos CLI module')
         ]
         info.assert_has_calls(calls)
 
