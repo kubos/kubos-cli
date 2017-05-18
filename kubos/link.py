@@ -17,6 +17,7 @@ from yotta import link
 from yotta.options import parser
 
 from kubos.utils.sdk_utils import *
+from kubos.init import remove_unruly_rt_dependencies
 
 def addOptions(parser):
     parser.add_argument('-a', '--all', action='store_true', default=False,
@@ -43,6 +44,9 @@ def execCommand(args, following_args):
     arg_dict = vars(args)
     if arg_dict['all']:
         link_global_cache_to_project(os.getcwd())
+        proj_type = get_project_type()
+        if proj_type == 'rt':
+            remove_unruly_rt_dependencies()
     else:
         #pass in the args argparse.Namespace object - not the dictionary from above
         link.execCommand(args, following_args)
