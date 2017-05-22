@@ -22,6 +22,7 @@ import unittest
 from kubos import init
 from kubos.test import utils
 from kubos.utils import constants
+from mock import patch
 from yotta.test.cli.test_target import Test_Module_JSON #A dummy module.json config
 
 class KubosInitTest(utils.KubosTestCase):
@@ -60,6 +61,17 @@ class KubosInitTest(utils.KubosTestCase):
         kubos.init.execCommand(self.args, None)
         self.assertTrue(os.path.isdir(self.proj_dir))
 
+    @patch('kubos.init.remove_unruly_rt_dependencies')
+    def test_rt_init_removes_rt_toublesome_dependencies(self, remove_deps):
+        # self.args already contains linux=False
+        kubos.init.execCommand(self.args, None)
+        remove_deps.assert_called_once()
+
+    @patch('kubos.init.remove_unruly_rt_dependencies')
+    def test_linux_init_does_not_remove_rt_toublesome_dependencies(self, remove_deps):
+        self.args.linux = True
+        kubos.init.execCommand(self.args, None)
+        remove_deps.assert_not_called()
 
     def test_overwrite_existing(self):
         self.proj_name = 'test-project'

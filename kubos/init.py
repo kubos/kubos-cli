@@ -60,7 +60,10 @@ def execCommand(args, following_args):
         final_module_json.write(str_module_data)
     os.chdir(proj_name_dir)
     sdk_utils.link_global_cache_to_project(proj_name_dir)
-    if hasattr(args, 'rt') and args.rt:
+
+    #remove the troublesome rt dependencies if needed
+    proj_type = sdk_utils.get_project_type()
+    if proj_type == 'rt':
         remove_unruly_rt_dependencies()
 
 
