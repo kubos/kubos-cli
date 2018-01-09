@@ -16,9 +16,9 @@
 import os
 from pkg_resources import resource_filename
 
-KUBOS_SRC_URL = 'https://github.com/kubostech/kubos'
-KUBOS_RT_EXAMPLE_URL = 'https://github.com/kubostech/kubos-rt-example'
-KUBOS_LINUX_EXAMPLE_URL = 'https://github.com/kubostech/kubos-linux-example'
+KUBOS_SRC_URL = 'https://github.com/kubos/kubos'
+KUBOS_RT_EXAMPLE_URL = 'https://github.com/kubos/kubos-rt-example'
+KUBOS_LINUX_EXAMPLE_URL = 'https://github.com/kubos/kubos-linux-example'
 
 HOME_DIR = os.path.expanduser('~')
 KUBOS_DIR = os.path.join(HOME_DIR, '.kubos')

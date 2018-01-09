@@ -28,7 +28,7 @@ from kubos.utils import git_utils, \
                         status_spinner
 from kubos.utils.constants import *
 
-KUBOS_CLI_REPO_URL = 'git+https://github.com/kubostech/kubos-cli'
+KUBOS_CLI_REPO_URL = 'git+https://github.com/kubos/kubos-cli'
 INSTALL_COMMAND    = ['sudo', 'pip', 'install', '--upgrade', KUBOS_CLI_REPO_URL]
 
 def addOptions(parser):

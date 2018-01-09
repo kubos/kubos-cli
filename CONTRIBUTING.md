@@ -88,4 +88,4 @@ git checkout -b new-fix
 git push --set-upstream origin new-fix
 ```
 
-Then head to (kubos-cli)[https://github.com/kubostech/kubos-cli] and create a PR.
+Then head to (kubos-cli)[https://github.com/kubos/kubos-cli] and create a PR.

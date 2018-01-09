@@ -4,6 +4,6 @@
     "description": "Kubos CLI",
     "edition": "preview",
     "name": "kubos-cli",
-    "url": "http://github.com/kubostech/kubos-cli",
+    "url": "http://github.com/kubos/kubos-cli",
     "version": "1.0.0.1"
 }
