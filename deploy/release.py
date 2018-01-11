@@ -25,7 +25,7 @@ import sys
 
 from uritemplate import URITemplate, expand
 
-release_endpoint = 'https://api.github.com/repos/kubostech/kubos-cli/releases'
+release_endpoint = 'https://api.github.com/repos/kubos/kubos-cli/releases'
 
 try:
     token = os.environ['GITHUB_TOKEN']
