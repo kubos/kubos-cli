@@ -35,7 +35,7 @@ def addOptions(parser):
 def execCommand(args, following_args):
     args = vars(args)
     target = args['set_target'] #Confusingly the set_target key is the target the user wants to set, no the currently set target
-    default_target = args['target'] #this is either the currently set target or the default stm32f4 discovery target
+    default_target = args['target'] #this is either the currently set target or the default x86-linux-native target
     if args['list']:
         print_target_list()
     elif target != None:
