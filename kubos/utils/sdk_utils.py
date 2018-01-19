@@ -63,7 +63,7 @@ project.
 def link_entities(src, dst):
     '''
     This function is used for recursively searching subdirectories for module and target
-    roots ie. where a module.json or target.json file exists once a root is found, the 
+    roots ie. where a module.json or target.json file exists once a root is found, the
     linking function is called.
     '''
     logging.disable(logging.WARNING) #suppress yotta warning for linking non-required modules and targets
@@ -147,9 +147,7 @@ def get_all_eligible_targets(path):
     Returns the list of targets which do not have dependent targets.
     Example target hierarchy:
     kubos-gcc
-      |____kubos-rt-gcc
-             |____kubos-arm-none-eabi-gcc
-                    |____stm32f407-disco-gcc <- This is the only target we want to build
+      |____x86-linux-native <- This is the only target we want to build
     The other targets in the hierarchy are not meant to be built against
     '''
     inherit_key = 'inherits'

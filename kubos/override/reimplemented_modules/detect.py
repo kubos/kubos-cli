@@ -16,7 +16,7 @@
 '''
 This file is an altered copy of yotta/lib/detect.py
 Our specific changes alter the default yotta target
-and change it to the stm32f407-disco-gcc instead of
+and change it to the x86-linux-native instead of
 the x86-platform-native target which doesn't exist
 in the kubos-cli context
 '''
@@ -37,7 +37,7 @@ def defaultTarget(ignore_set_target=False):
 
 
 def kubosDefaultTarget():
-    return 'stm32f407-disco-gcc,*'
+    return 'x86-linux-native,*'
 
 
 def systemDefaultTarget():

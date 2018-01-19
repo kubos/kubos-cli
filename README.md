@@ -79,11 +79,10 @@ Kubos Projects automatically set and use predefined build, flash and debug confi
 $ kubos target --list
 Available targets are:
 
-kubos-arm-none-eabi-gcc
-pyboard-gcc
-stm32f405-gcc
-stm32f407-disco-gcc
-msp430f5529-gcc
+x86-linux-native
+kubos-linux-beaglebone-gcc
+kubos-linux-isis-gcc
+kubos-linux-pumpkin-mbm2-gcc
 ...
 ```
 ##### Set target device:
