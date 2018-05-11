@@ -6,6 +6,7 @@ machine:
 
 dependencies:
     pre:
+        - pip install pip==9.0.3
         - pip install --upgrade setuptools
         - pip install --upgrade virtualenv
         - sudo mkdir /usr/local/lib/yotta_modules
