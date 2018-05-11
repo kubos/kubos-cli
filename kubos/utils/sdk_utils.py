@@ -69,6 +69,13 @@ def link_entities(src, dst):
     logging.disable(logging.WARNING) #suppress yotta warning for linking non-required modules and targets
     for subdir in os.listdir(src):
         #loop through the subdirectories of src
+        #but don't go down the rabbit hole of yotta_module symlinks
+        if "yotta_modules" in subdir:
+            continue
+        if "yotta_targets" in subdir:
+            continue
+        if "build" in subdir:
+            continue
         cur_dir = os.path.join(src, subdir)
         if is_module_or_target_root(subdir):
             #if we're pointing to a target.json or module.json - link the module and return
